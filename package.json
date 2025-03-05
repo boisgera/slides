@@ -1,0 +1,25 @@
+{
+  "name": "slides",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "clean": "rm -rf *.civet.tsx *.css",
+    "build": "civet styles.civet > styles.css && civet -c *.civet && esbuild app.civet.tsx --bundle --format=esm --outfile=app.js",
+    "watch": "watchexec -w app.civet -w styles.civet -w index.html -- npm run build",
+    "serve": "http-server"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "jss": "^10.10.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "react-jss": "^10.10.0"
+  },
+  "devDependencies": {
+    "@danielx/civet": "^0.9.7",
+    "esbuild": "^0.25.0",
+    "http-server": "^14.1.1"
+  }
+}

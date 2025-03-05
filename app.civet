@@ -1,0 +1,21 @@
+"civet autoLet coffeeJSX react"
+import React, { StrictMode } from "react"
+import ReactDOM from 'react-dom/client';
+import { createUseStyles } from 'react-jss'
+
+useStyles := createUseStyles
+    app:
+        color: "red"
+
+App : React.FC<any> := => 
+    classes := useStyles()
+    <div .{classes.app}>
+        <h1>The Inter Typeface</h1>
+    </div>
+
+root := ReactDOM.createRoot document.body
+
+root.render 
+    <StrictMode>   
+        <App />
+    </StrictMode>
