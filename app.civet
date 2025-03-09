@@ -3,6 +3,11 @@ import React, { useEffect, StrictMode } from "react"
 import ReactDOM from 'react-dom/client';
 import { motion } from 'motion/react'
 import { createUseStyles } from 'react-jss'
+import Markdown from 'react-markdown'
+import remarkMath from 'remark-math'
+import rehypeMathjax from 'rehype-mathjax'
+
+r := String.raw
 
 useStyles := createUseStyles
     "slide":
@@ -126,6 +131,30 @@ TwoColumnExample : React.FC<any> := =>
                         <li>Butter
                         <li>Cheese
 
+MdMathSlide : React.FC<any> := =>
+    md := r"""
+    ```math
+    \int_0^\infty e^{-x^2} dx = \frac{\sqrt{\pi}}{2}
+    ```
+    """
+    <p>
+        <Markdown remarkPlugins={[remarkMath]}>
+            {md}
+
+
+MdSlide : React.FC<any> := =>
+    markdown := '''
+    # Hi, Math!
+    ```math
+    I := \\int_0^{\\infty} e^{-x^2} dx = \\frac{\\sqrt{\\pi}}{2}
+    ```
+
+    '''
+    <p style={fontSize: "72px"}>
+        <Markdown 
+            remarkPlugins={[remarkMath]} 
+            rehypePlugins={[rehypeMathjax]}>
+            {markdown}
 
 
 root := ReactDOM.createRoot document.body
@@ -133,6 +162,7 @@ root := ReactDOM.createRoot document.body
 root.render 
     <StrictMode>   
         <Deck>
+            <MdSlide />
             <TwoColumnExample />
             <Hero1 />
             <Hero2 />
