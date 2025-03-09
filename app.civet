@@ -142,7 +142,7 @@ MdMathSlide : React.FC<any> := =>
             {md}
 
 
-MdSlide : React.FC<any> := =>
+MdSlide : React.FC<any> := => // TODO: solve the double \ issue in Math?
     markdown := '''
     # Hi, Math!
     ```math
