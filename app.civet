@@ -187,6 +187,9 @@ CodeExample : React.FC<any> := =>
     function hello() {
         console.log('Hello, world!');
     }
+    const doIt = () => {
+        hello();
+    }
     ```
     html := highlighter.codeToHtml code, lang: "js", theme: "github-dark"
     <div 
