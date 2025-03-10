@@ -16,5 +16,10 @@ css :=
         lineHeight: 1.5
         color: "black"
         backgroundColor: "white"
+    code:
+        fontFamily: ["Jetbrains Mono", "monospace"]   
+        fontSize: "inherit"
+        lineHeight: "inherit"
+        fontWeight: 400
 
 css |> {'@global': &} |> jss.createStyleSheet |> .toString() |> console.log
