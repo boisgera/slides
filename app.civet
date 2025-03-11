@@ -75,10 +75,36 @@ export Zlide : React.FC<any> := =>
         to NASA instrumentation & medical equipment
         """}
 
+type NumberStateHook = [number, React.Dispatch<React.SetStateAction<number>>]
+
+useFragmentState := (initialIndex = 0) : NumberStateHook =>
+    // Parse the current URL fragment to get the initial index
+    getIndexFromFragment := =>
+        fragment := window.location.hash.replace("#", "");
+        if fragment then parseInt(fragment, 10) else initialIndex
+
+    [index, setIndex] := React.useState(getIndexFromFragment());
+
+    // Update the URL fragment whenever the index changes
+    useEffect(=> 
+        window.location.hash = index.toString();
+    , [index])
+
+    // Listen for changes to the URL fragment (e.g., back/forward navigation)
+    useEffect(=>
+        handleHashChange := =>
+            newIndex := getIndexFromFragment()
+            if (newIndex !== index)
+                setIndex(newIndex)
+        window.addEventListener('hashchange', handleHashChange)
+        => window.removeEventListener('hashchange', handleHashChange);
+    , [index]);
+
+    [index, setIndex]
+
+
 export Deck : React.FC<any> := ({children}) =>
-    [index, setIndex] := React.useState 0
-    [state, setState] := React.useState true
-    // compute the number of children
+    [index, setIndex] := useFragmentState 0
 
     useEffect =>
         onKeyDown := (event) =>
