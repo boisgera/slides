@@ -1,11 +1,11 @@
 "civet autoLet react"
 import React, { useEffect, StrictMode } from "react"
 import ReactDOM from 'react-dom/client';
-import { motion } from 'motion/react'
+import { motion, MotionStyle } from 'motion/react'
 import { createUseStyles } from 'react-jss'
 import Markdown from 'react-markdown'
 import remarkMath from 'remark-math'
-import rehypeMathjax from 'rehype-mathjax'
+// import rehypeMathjax from 'rehype-mathjax'  
 import { MathJaxContext, MathJax } from 'better-react-mathjax'
 import { createHighlighter } from 'shiki'
 
@@ -20,7 +20,7 @@ useStyles := createUseStyles
         width: "100vw"
         background: "white"
 
-Hero1 : React.FC<any> := => 
+export Hero1 : React.FC<any> := => 
     classes := useStyles()
     style :=
         fontSize: "96px"
@@ -30,14 +30,14 @@ Hero1 : React.FC<any> := =>
         height: "100vh"
         display: "flex"
         alignItems: "center"
-        textAlign: "center"
+        // textAlign: "center"
     <motion.div 
         {style} 
         initial={scale:0.2} 
         animate={scale:1}>
         <h1>{"The Inter Typeface"}</h1>
 
-Hero2 : React.FC<any> := => 
+export Hero2 : React.FC<any> := => 
     classes := useStyles()
     style :=
         fontSize: "72px"
@@ -59,7 +59,7 @@ Hero2 : React.FC<any> := =>
             <br></br> 
             <span>{"Fight it!"}</span>
 
-Zlide : React.FC<any> := => 
+export Zlide : React.FC<any> := => 
     classes := useStyles()
     style :=
         fontSize: "96px"
@@ -75,7 +75,7 @@ Zlide : React.FC<any> := =>
         to NASA instrumentation & medical equipment
         """}
 
-Deck : React.FC<any> := ({children}) =>
+export Deck : React.FC<any> := ({children}) =>
     [index, setIndex] := React.useState 0
     [state, setState] := React.useState true
     // compute the number of children
@@ -107,7 +107,7 @@ useTCStyles := createUseStyles
         backgroundClip: "text"
         WebkitBackgroundClip: "text"
 
-TwoColumnExample : React.FC<any> := =>
+export TwoColumnExample : React.FC<any> := =>
     classes := useTCStyles()
     <div>
         <header>
@@ -133,7 +133,7 @@ TwoColumnExample : React.FC<any> := =>
                         <li>Butter
                         <li>Cheese
 
-MdMathSlide : React.FC<any> := =>
+export MdMathSlide : React.FC<any> := =>
     md := r"""
     ```math
     \int_0^\infty e^{-x^2} dx = \frac{\sqrt{\pi}}{2}
@@ -144,7 +144,7 @@ MdMathSlide : React.FC<any> := =>
             {md}
 
 
-MdSlide : React.FC<any> := => // TODO: solve the double \ issue in Math?
+export MdSlide : React.FC<any> := => // TODO: solve the double \ issue in Math?
     markdown := '''
     # Hi, Math!
     ```math
@@ -154,11 +154,11 @@ MdSlide : React.FC<any> := => // TODO: solve the double \ issue in Math?
     '''
     <div style={fontSize: "72px"}>
         <Markdown 
-            remarkPlugins={[remarkMath]} 
-            rehypePlugins={[rehypeMathjax]}>
+            remarkPlugins={[remarkMath]}> 
+            <!-- rehypePlugins={[rehypeMathjax]} -->
             {markdown}
 
-Unsplash : React.FC<any> := ({id="Y19hE9fAOG4", width=1920, children})=> 
+export Unsplash : React.FC<any> := ({id="Y19hE9fAOG4", width=1920, children})=> 
     <div 
         style={
             width: "100vw",
@@ -168,13 +168,13 @@ Unsplash : React.FC<any> := ({id="Y19hE9fAOG4", width=1920, children})=>
         }>
         {children}
 
-MathSlide1 : React.FC<any> := =>
+export MathSlide1 : React.FC<any> := =>
     <MathJax>
         <div style={height: "100vh", display: "flex", justifyContent: "center", alignItems: "center"}>
             <p style={display: "inline-block", fontSize: "96px"}>
                 {r`$$\int_0^{\infty} e^{-x^2} dx = \frac{\sqrt{\pi}}{2}$$`}
 
-MathSlide2 : React.FC<any> := =>
+export MathSlide2 : React.FC<any> := =>
     <MathJax>
         <div style={height: "100vh", display: "flex", justifyContent: "center", alignItems: "center"}>
             <p style={display: "inline-block", fontSize: "96px"}>
@@ -182,13 +182,13 @@ MathSlide2 : React.FC<any> := =>
 
 
 
-CodeExample : React.FC<any> := =>
+export CodeExample : React.FC<any> := =>
     code := ```
-    function hello() {
+    function hello__() {
         console.log('Hello, world!');
     }
     const doIt = () => {
-        hello();
+        hello__(); // Or don't !!!
     }
     ```
     html := highlighter.codeToHtml code, lang: "js", theme: "github-dark"
