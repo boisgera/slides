@@ -83,22 +83,25 @@ useFragmentState := (initialIndex = 0) : NumberStateHook =>
         fragment := window.location.hash.replace("#", "");
         if fragment then parseInt(fragment, 10) else initialIndex
 
-    [index, setIndex] := React.useState(getIndexFromFragment());
+    [index, setIndex] := React.useState getIndexFromFragment()
 
     // Update the URL fragment whenever the index changes
-    useEffect(=> 
-        window.location.hash = index.toString();
-    , [index])
+    useEffect
+        => 
+            window.location.hash = index.toString();
+        [index]
 
     // Listen for changes to the URL fragment (e.g., back/forward navigation)
-    useEffect(=>
-        handleHashChange := =>
-            newIndex := getIndexFromFragment()
-            if (newIndex !== index)
-                setIndex(newIndex)
-        window.addEventListener('hashchange', handleHashChange)
-        => window.removeEventListener('hashchange', handleHashChange);
-    , [index]);
+    useEffect 
+        =>
+            handleHashChange := =>
+                newIndex := getIndexFromFragment()
+                if newIndex is not index
+                    setIndex newIndex;
+            window.addEventListener "hashchange", handleHashChange
+            => 
+                window.removeEventListener "hashchange", handleHashChange;
+        [index]
 
     [index, setIndex]
 
@@ -106,23 +109,23 @@ useFragmentState := (initialIndex = 0) : NumberStateHook =>
 export Deck : React.FC<any> := ({children}) =>
     [index, setIndex] := useFragmentState 0
 
-    useEffect =>
-        onKeyDown := (event) =>
-            if event.key === "ArrowRight"
-                setIndex (index) => 
-                    Math.min index + 1, children.length - 1
-            if event.key === "ArrowLeft"
-                setIndex (index) => 
-                    Math.max index - 1, 0
-        onClick := (event) => 
-            setIndex (index) => (index + 1) % children.length // TODO: deal with length dependency
-        onClick |> document.addEventListener "click", .
-        onKeyDown |> document.addEventListener "keydown", .
-        // register cleanup function
-        () => 
-            onClick |> document.removeEventListener "click", . 
-            onKeyDown |> document.removeEventListener "keydown", .
-    , 
+    useEffect 
+        =>
+            onKeyDown := (event) =>
+                if event.key is "ArrowRight"
+                    setIndex (index) => 
+                        Math.min index + 1, children.length - 1
+                if event.key is "ArrowLeft"
+                    setIndex (index) => 
+                        Math.max index - 1, 0
+            onClick := (event) => 
+                setIndex (index) => (index + 1) % children.length // TODO: deal with length dependency
+            onClick |> document.addEventListener "click", .
+            onKeyDown |> document.addEventListener "keydown", .
+            // register cleanup function
+            => 
+                onClick |> document.removeEventListener "click", . 
+                onKeyDown |> document.removeEventListener "keydown", .
         [] // runs only once on mount
 
     children[index]
