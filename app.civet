@@ -1,5 +1,5 @@
 "civet autoLet react"
-import React, { useEffect, StrictMode } from "react"
+import React, { useEffect, useRef, useState, StrictMode } from "react"
 import ReactDOM from 'react-dom/client';
 import { motion, MotionStyle } from 'motion/react'
 import { createUseStyles } from 'react-jss'
@@ -8,6 +8,8 @@ import remarkMath from 'remark-math'
 // import rehypeMathjax from 'rehype-mathjax'  
 import { MathJaxContext, MathJax } from 'better-react-mathjax'
 import { createHighlighter } from 'shiki'
+import { Canvas, useFrame } from '@react-three/fiber';
+
 
 r := String.raw
 
@@ -83,24 +85,22 @@ useFragmentState := (initialIndex = 0) : NumberStateHook =>
         fragment := window.location.hash.replace("#", "");
         if fragment then parseInt(fragment, 10) else initialIndex
 
-    [index, setIndex] := React.useState getIndexFromFragment()
+    [index, setIndex] := useState getIndexFromFragment()
 
     // Update the URL fragment whenever the index changes
     useEffect
-        => 
-            window.location.hash = index.toString();
+        => window.location.hash = index.toString();
         [index]
 
     // Listen for changes to the URL fragment (e.g., back/forward navigation)
     useEffect 
-        =>
+        => 
             handleHashChange := =>
                 newIndex := getIndexFromFragment()
                 if newIndex is not index
                     setIndex newIndex;
             window.addEventListener "hashchange", handleHashChange
-            => 
-                window.removeEventListener "hashchange", handleHashChange;
+            => window.removeEventListener "hashchange", handleHashChange;
         [index]
 
     [index, setIndex]
@@ -118,14 +118,15 @@ export Deck : React.FC<any> := ({children}) =>
                 if event.key is "ArrowLeft"
                     setIndex (index) => 
                         Math.max index - 1, 0
-            onClick := (event) => 
-                setIndex (index) => (index + 1) % children.length // TODO: deal with length dependency
-            onClick |> document.addEventListener "click", .
             onKeyDown |> document.addEventListener "keydown", .
+            // onClick := (event) => 
+            //     setIndex (index) => (index + 1) % children.length // TODO: deal with length dependency
+            // onClick |> document.addEventListener "click", .
             // register cleanup function
             => 
-                onClick |> document.removeEventListener "click", . 
                 onKeyDown |> document.removeEventListener "keydown", .
+                // onClick |> document.removeEventListener "click", . 
+
         [] // runs only once on mount
 
     children[index]
@@ -238,6 +239,30 @@ export CodeExample : React.FC<any> := =>
             }>
             <div dangerouslySetInnerHTML={ __html: html }>
 
+export Box := (props) =>
+  mesh := useRef(null)
+  [hovered, setHover] := useState false
+  [active, setActive] := useState false
+  useFrame((state, delta) => (mesh.current.rotation.x += delta))
+  <mesh
+      {...props}
+      ref={mesh}
+      scale={active ? 1.5 : 1}
+      onClick={(event) => setActive not active}
+      onPointerOver={(event) => setHover true}
+      onPointerOut={(event) => setHover false}>
+      <boxGeometry args={[1, 1, 1]} />
+      <meshStandardMaterial color={hovered ? 'hotpink' : 'orange'} />
+
+export ThreeBox : React.FC<any> := () =>
+    <div style={width: '100vw', height: '100vh'}>
+        <Canvas>
+            <ambientLight intensity={Math.PI / 2} />
+            <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} decay={0} intensity={Math.PI} />
+            <pointLight position={[-10, -10, -10]} decay={0} intensity={Math.PI} />
+            <Box position={[-1.2, 0, 0]} />
+            <Box position={[1.2, 0, 0]} />
+
 root := ReactDOM.createRoot document.body
 
 highlighter = undefined
@@ -250,6 +275,7 @@ async function init()
         <StrictMode>   
             <MathJaxContext>
                 <Deck>
+                    <ThreeBox />
                     <CodeExample />
                     <MathSlide1 />
                     <Unsplash id="EvKXANO8MGw">
@@ -269,7 +295,7 @@ async function init()
                                 textShadow: "0 0 10px rgba(0,0,0,0.5)"
                             }>{"Le Mont Saint-Michel"}
                     <Unsplash id="sk3BZ5HsYTI" />
-                    <MdSlide />
+                    <!-- <MdSlide /> -->
                     <TwoColumnExample />
                     <Hero1 />
                     <Hero2 />

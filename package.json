@@ -13,6 +13,7 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "@react-three/fiber": "^9.1.0",
     "better-react-mathjax": "^2.1.0",
     "jss": "^10.10.0",
     "motion": "^12.4.10",
@@ -22,7 +23,8 @@
     "react-markdown": "^10.1.0",
     "rehype-mathjax": "^7.1.0",
     "remark-math": "^6.0.0",
-    "shiki": "^3.1.0"
+    "shiki": "^3.1.0",
+    "three": "^0.174.0"
   },
   "devDependencies": {
     "@danielx/civet": "^0.9.7",
