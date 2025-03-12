@@ -276,37 +276,40 @@ root := ReactDOM.createRoot document.body
 highlighter = undefined
 
 async function init()
-    highlighter = await createHighlighter { themes: ["nord", "github-dark"], langs: ["js"] }
-    console.log highlighter
-    console.log (highlighter.getTheme "github-dark")
     root.render 
-        <StrictMode>   
-            <MathJaxContext>
-                <Deck>
-                    <ThreeBox />
-                    <CodeExample />
-                    <MathSlide1 />
-                    <Unsplash id="EvKXANO8MGw">
-                    <MathSlide2 />
-                    <Unsplash>
-                        <div style={
-                            width: "100%", 
-                            height: "100vh",
-                            display: "flex"
-                            alignItems: "center",
-                            justifyContent: "center"}>
-                            <h1 style={
-                                fontSize: "96px",
-                                fontWeight: "700",
-                                lineHeight: "1",
-                                color: "white",
-                                textShadow: "0 0 10px rgba(0,0,0,0.5)"
-                            }>{"Le Mont Saint-Michel"}
-                    <Unsplash id="sk3BZ5HsYTI" />
-                    <!-- <MdSlide /> -->
-                    <TwoColumnExample />
-                    <Hero1 />
-                    <Hero2 />
-                    <Zlide />
+        <h1>Test
+        
+    // highlighter = await createHighlighter { themes: ["nord", "github-dark"], langs: ["js"] }
+    // console.log highlighter
+    // console.log (highlighter.getTheme "github-dark")
+    // root.render 
+    //     <StrictMode>   
+    //         <MathJaxContext>
+    //             <Deck>
+    //                 <ThreeBox />
+    //                 <CodeExample />
+    //                 <MathSlide1 />
+    //                 <Unsplash id="EvKXANO8MGw">
+    //                 <MathSlide2 />
+    //                 <Unsplash>
+    //                     <div style={
+    //                         width: "100%", 
+    //                         height: "100vh",
+    //                         display: "flex"
+    //                         alignItems: "center",
+    //                         justifyContent: "center"}>
+    //                         <h1 style={
+    //                             fontSize: "96px",
+    //                             fontWeight: "700",
+    //                             lineHeight: "1",
+    //                             color: "white",
+    //                             textShadow: "0 0 10px rgba(0,0,0,0.5)"
+    //                         }>{"Le Mont Saint-Michel"}
+    //                 <Unsplash id="sk3BZ5HsYTI" />
+    //                 <!-- <MdSlide /> -->
+    //                 <TwoColumnExample />
+    //                 <Hero1 />
+    //                 <Hero2 />
+    //                 <Zlide />
 
 init()
