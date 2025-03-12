@@ -280,32 +280,33 @@ async function init()
     // highlighter = await createHighlighter { themes: ["nord", "github-dark"], langs: ["js"] }
     // console.log highlighter
     // console.log (highlighter.getTheme "github-dark")
-    root.render 
-        <Deck>
+    root.render
+        <StrictMode> 
             <MathJaxContext>
-                <!-- <CodeExample /> -->
-                <ThreeBox />
-                <MathSlide1 />
-                <MathSlide2 />
-                <Unsplash id="EvKXANO8MGw">
-                <Unsplash>
-                    <div style={
-                        width: "100%", 
-                        height: "100vh",
-                        display: "flex"
-                        alignItems: "center",
-                        justifyContent: "center"}>
-                        <h1 style={
-                            fontSize: "96px",
-                            fontWeight: "700",
-                            lineHeight: "1",
-                            color: "white",
-                            textShadow: "0 0 10px rgba(0,0,0,0.5)"
-                        }>{"Le Mont Saint-Michel"}
-                <Unsplash id="sk3BZ5HsYTI" />
-                <TwoColumnExample />
-                <Hero1 />
-                <Hero2 />
-                <Zlide />
+                <Deck>
+                    <!-- <CodeExample /> -->
+                    <ThreeBox />
+                    <MathSlide1 />
+                    <MathSlide2 />
+                    <Unsplash id="EvKXANO8MGw">
+                    <Unsplash>
+                        <div style={
+                            width: "100%", 
+                            height: "100vh",
+                            display: "flex"
+                            alignItems: "center",
+                            justifyContent: "center"}>
+                            <h1 style={
+                                fontSize: "96px",
+                                fontWeight: "700",
+                                lineHeight: "1",
+                                color: "white",
+                                textShadow: "0 0 10px rgba(0,0,0,0.5)"
+                            }>{"Le Mont Saint-Michel"}
+                    <Unsplash id="sk3BZ5HsYTI" />
+                    <TwoColumnExample />
+                    <Hero1 />
+                    <Hero2 />
+                    <Zlide />
 
 init()
