@@ -23,8 +23,8 @@ jobs:
           npm install
           npm run build
 
-    #   - name: Prepare Deployment
-    #     run: rm -rf .gitignore
+      - name: Prepare Deployment
+        run: rm -rf .gitignore
 
       # Step 4: Deploy to GitHub Pages
       - name: Deploy to GitHub Pages
