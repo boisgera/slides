@@ -26,7 +26,7 @@ useStyles := createUseStyles
         width: "100vw"
         background: "white"
 
-export Hero1 : React.FC<any> := => 
+Hero1 := => 
     classes := useStyles()
     style :=
         fontSize: "96px"
@@ -43,7 +43,7 @@ export Hero1 : React.FC<any> := =>
         animate={scale:1}>
         <h1>{"The Inter Typeface"}</h1>
 
-export Hero2 : React.FC<any> := => 
+Hero2 := => 
     classes := useStyles()
     style :=
         fontSize: "72px"
@@ -65,7 +65,7 @@ export Hero2 : React.FC<any> := =>
             <br></br> 
             <span>{"Fight it!"}</span>
 
-export Zlide : React.FC<any> := => 
+Zlide := => 
     classes := useStyles()
     style :=
         fontSize: "96px"
@@ -110,7 +110,7 @@ useFragmentState := (initialIndex = 0) : NumberStateHook =>
     [index, setIndex]
 
 
-export Deck : React.FC<any> := ({children}) =>
+Deck := ({children}) =>
     [index, setIndex] := useFragmentState 0
 
     useEffect 
@@ -141,7 +141,7 @@ useTCStyles := createUseStyles
         backgroundClip: "text"
         WebkitBackgroundClip: "text"
 
-export TwoColumnExample : React.FC<any> := =>
+TwoColumnExample := =>
     classes := useTCStyles()
     <div>
         <header>
@@ -167,7 +167,7 @@ export TwoColumnExample : React.FC<any> := =>
                         <li>Butter
                         <li>Cheese
 
-export MdMathSlide : React.FC<any> := =>
+MdMathSlide := =>
     md := r"""
     ```math
     \int_0^\infty e^{-x^2} dx = \frac{\sqrt{\pi}}{2}
@@ -178,7 +178,7 @@ export MdMathSlide : React.FC<any> := =>
             {md}
 
 
-export MdSlide : React.FC<any> := => // TODO: solve the double \ issue in Math?
+MdSlide := => // TODO: solve the double \ issue in Math?
     markdown := '''
     # Hi, Math!
     ```math
@@ -192,7 +192,7 @@ export MdSlide : React.FC<any> := => // TODO: solve the double \ issue in Math?
             <!-- rehypePlugins={[rehypeMathjax]} -->
             {markdown}
 
-export Unsplash : React.FC<any> := ({id="Y19hE9fAOG4", width=1920, children})=> 
+Unsplash := ({id="Y19hE9fAOG4", width=1920, children})=> 
     <div 
         style={
             width: "100vw",
@@ -202,13 +202,13 @@ export Unsplash : React.FC<any> := ({id="Y19hE9fAOG4", width=1920, children})=>
         }>
         {children}
 
-export MathSlide1 : React.FC<any> := =>
+MathSlide1 := =>
     <MathJax>
         <div style={height: "100vh", display: "flex", justifyContent: "center", alignItems: "center"}>
             <p style={display: "inline-block", fontSize: "96px"}>
                 {r`$$\int_0^{\infty} e^{-x^2} dx = \frac{\sqrt{\pi}}{2}$$`}
 
-export MathSlide2 : React.FC<any> := =>
+MathSlide2 := =>
     <MathJax>
         <div style={height: "100vh", display: "flex", justifyContent: "center", alignItems: "center"}>
             <p style={display: "inline-block", fontSize: "96px"}>
@@ -216,7 +216,7 @@ export MathSlide2 : React.FC<any> := =>
 
 
 
-export CodeExample : React.FC<any> := =>
+CodeExample := =>
     code := ```
     function hello__() {
         console.log('Hello, world!');
@@ -243,7 +243,7 @@ export CodeExample : React.FC<any> := =>
             }>
             <div dangerouslySetInnerHTML={ __html: html }>
 
-export Box := (props) =>
+Box := (props) =>
     mesh := useRef(null)
     [hovered, setHover] := useState false
     [active, setActive] := useState false
@@ -258,7 +258,7 @@ export Box := (props) =>
         <boxGeometry args={[1, 1, 1]} />
         <meshStandardMaterial color={hovered ? 'hotpink' : 'orange'} />
 
-export ThreeBox := =>
+ThreeBox := =>
     <div style={width: '100vw', height: '100vh'}>
         <Canvas>
             <ambientLight intensity={Math.PI / 2} />
