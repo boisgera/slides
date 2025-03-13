@@ -1,3 +1,4 @@
+// @ts-nocheck
 "civet autoLet react"
 import React, { useEffect, useRef, useState, StrictMode } from "react"
 import ReactDOM from 'react-dom/client';
@@ -7,9 +8,12 @@ import Markdown from 'react-markdown'
 import remarkMath from 'remark-math'
 // import rehypeMathjax from 'rehype-mathjax'  
 import { MathJaxContext, MathJax } from 'better-react-mathjax'
-import { createHighlighter } from 'shiki'
 import { Canvas, useFrame } from '@react-three/fiber';
 
+import { createHighlighterCore } from 'shiki/core'
+import { createJavaScriptRegexEngine } from 'shiki/engine/javascript'
+import gitHubDark from '@shikijs/themes/github-dark'
+import js from '@shikijs/langs/javascript'
 
 r := String.raw
 
@@ -273,18 +277,18 @@ export ThreeBox := =>
 
 root := ReactDOM.createRoot document.body
 
-highlighter = undefined
+highlighter = null
 
 async function init()
-    // for some reason, THIS takes a shit ton of space, manage the issue!
-    // highlighter = await createHighlighter { themes: ["nord", "github-dark"], langs: ["js"] }
-    // console.log highlighter
-    // console.log (highlighter.getTheme "github-dark")
+    highlighter = await createHighlighterCore
+        themes: [gitHubDark]
+        langs: [js]
+        engine: createJavaScriptRegexEngine()
     root.render
         <StrictMode> 
             <MathJaxContext>
                 <Deck>
-                    <!-- <CodeExample /> -->
+                    <CodeExample />
                     <ThreeBox />
                     <MathSlide1 />
                     <MathSlide2 />
