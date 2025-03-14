@@ -275,19 +275,58 @@ ThreeBox := =>
             <Box position={[-1.2, 0, 0]} />
             <Box position={[1.2, 0, 0]} />
 
+TextSubmit := ({onSubmit}) =>
+    [inputValue, setInputValue] := useState ""
+
+    handleInputChange := (event) =>
+        setInputValue event.target.value
+  
+    handleSubmit := (event) =>
+        event.preventDefault()
+        onSubmit inputValue
+        setInputValue ""
+
+    <form onSubmit={handleSubmit}>
+      <label htmlFor="textInput">
+        Enter Text:
+      <input
+        type="text"
+        id="textInput"
+        value={inputValue}
+        onChange={handleInputChange}
+        placeholder="Type something..."
+      >
+      <button type="submit">
+        Submit
+
+PythonExample := =>
+    [value, setValue] := useState ""
+
+    <TextSubmit onSubmit={(code) => code |> pyodide.runPython |> setValue} />
+    <pre>
+        {value}
+        
+
 root := ReactDOM.createRoot document.body
 
 highlighter = null
+pyodide = null
 
 async function init()
+    // Shiki Async
     highlighter = await createHighlighterCore
         themes: [gitHubDark]
         langs: [js]
         engine: createJavaScriptRegexEngine()
+    // Pyodide Async
+    // pyodide = await loadPyodide()
+
+    // Render
     root.render
         <StrictMode> 
             <MathJaxContext>
                 <Deck>
+                    // <PythonExample />
                     <CodeExample />
                     <ThreeBox />
                     <MathSlide1 />
