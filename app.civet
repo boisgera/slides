@@ -319,14 +319,14 @@ async function init()
         langs: [js]
         engine: createJavaScriptRegexEngine()
     // Pyodide Async
-    // pyodide = await loadPyodide()
+    pyodide = await loadPyodide()
 
     // Render
     root.render
         <StrictMode> 
             <MathJaxContext>
                 <Deck>
-                    // <PythonExample />
+                    <PythonExample />
                     <CodeExample />
                     <ThreeBox />
                     <MathSlide1 />
