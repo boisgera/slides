@@ -1,14 +1,18 @@
 // @ts-nocheck
 "civet autoLet react"
-import React, { useEffect, useRef, useState, StrictMode } from "react"
+import React, { useContext, useEffect, useRef, useState, StrictMode } from "react"
 import ReactDOM from 'react-dom/client';
 import { motion, MotionStyle } from 'motion/react'
 import { createUseStyles } from 'react-jss'
 import Markdown from 'react-markdown'
 import remarkMath from 'remark-math'
+
 // import rehypeMathjax from 'rehype-mathjax'  
-import { MathJaxContext, MathJax } from 'better-react-mathjax'
-import { Canvas, useFrame } from '@react-three/fiber';
+// import { MathJaxContext, MathJax } from 'better-react-mathjax'
+import { MathExample } from './math.civet'
+
+import {ThreeBox} from './threebox.civet'
+
 
 import { createHighlighterCore } from 'shiki/core'
 import { createJavaScriptRegexEngine } from 'shiki/engine/javascript'
@@ -202,17 +206,17 @@ Unsplash := ({id="Y19hE9fAOG4", width=1920, children})=>
         }>
         {children}
 
-MathSlide1 := =>
-    <MathJax>
-        <div style={height: "100vh", display: "flex", justifyContent: "center", alignItems: "center"}>
-            <p style={display: "inline-block", fontSize: "96px"}>
-                {r`$$\int_0^{\infty} e^{-x^2} dx = \frac{\sqrt{\pi}}{2}$$`}
+// MathSlide1 := =>
+//     <MathJax>
+//         <div style={height: "100vh", display: "flex", justifyContent: "center", alignItems: "center"}>
+//             <p style={display: "inline-block", fontSize: "96px"}>
+//                 {r`$$\int_0^{\infty} e^{-x^2} dx = \frac{\sqrt{\pi}}{2}$$`}
 
-MathSlide2 := =>
-    <MathJax>
-        <div style={height: "100vh", display: "flex", justifyContent: "center", alignItems: "center"}>
-            <p style={display: "inline-block", fontSize: "96px"}>
-                {r`$$\mathbb{E}[X] = \mathbb{E}\left[\mathbb{E}[X | Y]\right]$$`}
+// MathSlide2 := =>
+//     <MathJax>
+//         <div style={height: "100vh", display: "flex", justifyContent: "center", alignItems: "center"}>
+//             <p style={display: "inline-block", fontSize: "96px"}>
+//                 {r`$$\mathbb{E}[X] = \mathbb{E}\left[\mathbb{E}[X | Y]\right]$$`}
 
 
 
@@ -243,37 +247,6 @@ CodeExample := =>
             }>
             <div dangerouslySetInnerHTML={ __html: html }>
 
-Box := (props) =>
-    mesh := useRef(null)
-    [hovered, setHover] := useState false
-    [active, setActive] := useState false
-    useFrame (state, delta) => mesh.current.rotation.x += delta
-    <mesh
-        {...props}
-        ref={mesh}
-        scale={active ? 1.5 : 1}
-        onClick={(event) => setActive not active}
-        onPointerOver={(event) => setHover true}
-        onPointerOut={(event) => setHover false}>
-        <boxGeometry args={[1, 1, 1]} />
-        <meshStandardMaterial color={hovered ? 'hotpink' : 'orange'} />
-
-ThreeBox := =>
-    <div style={width: '100vw', height: '100vh'}>
-        <Canvas>
-            <ambientLight intensity={Math.PI / 2} />
-            <spotLight 
-                position={[10, 10, 10]} 
-                angle={0.15} 
-                penumbra={1} 
-                decay={0} 
-                intensity={Math.PI} />
-            <pointLight 
-                position={[-10, -10, -10]} 
-                decay={0} 
-                intensity={Math.PI} />
-            <Box position={[-1.2, 0, 0]} />
-            <Box position={[1.2, 0, 0]} />
 
 TextSubmit := ({onSubmit}) =>
     [inputValue, setInputValue] := useState ""
@@ -299,18 +272,18 @@ TextSubmit := ({onSubmit}) =>
       <button type="submit">
         Submit
 
-PythonExample := =>
-    [value, setValue] := useState ""
+// PythonExample := =>
+//     [value, setValue] := useState ""
 
-    <TextSubmit onSubmit={(code) => code |> pyodide.runPython |> setValue} />
-    <pre>
-        {value}
+//     <TextSubmit onSubmit={(code) => code |> pyodide.runPython |> setValue} />
+//     <pre>
+//         {value}
         
 
 root := ReactDOM.createRoot document.body
 
 highlighter = null
-pyodide = null
+//pyodide = null
 
 async function init()
     // Shiki Async
@@ -319,37 +292,35 @@ async function init()
         langs: [js]
         engine: createJavaScriptRegexEngine()
     // Pyodide Async
-    pyodide = await loadPyodide()
+    //pyodide = await loadPyodide()
 
     // Render
     root.render
-        <StrictMode> 
-            <MathJaxContext>
-                <Deck>
-                    <PythonExample />
-                    <CodeExample />
-                    <ThreeBox />
-                    <MathSlide1 />
-                    <MathSlide2 />
-                    <Unsplash id="EvKXANO8MGw">
-                    <Unsplash>
-                        <div style={
-                            width: "100%", 
-                            height: "100vh",
-                            display: "flex"
-                            alignItems: "center",
-                            justifyContent: "center"}>
-                            <h1 style={
-                                fontSize: "96px",
-                                fontWeight: "700",
-                                lineHeight: "1",
-                                color: "white",
-                                textShadow: "0 0 10px rgba(0,0,0,0.5)"
-                            }>{"Le Mont Saint-Michel"}
-                    <Unsplash id="sk3BZ5HsYTI" />
-                    <TwoColumnExample />
-                    <Hero1 />
-                    <Hero2 />
-                    <Zlide />
+        <StrictMode> // Issue with cleanup. How is doing better-mathjax-react in this respect?
+            <Deck>
+                <MathExample />
+                <ThreeBox />
+                <!-- <PythonExample /> -->
+                <CodeExample />
+                <Unsplash id="EvKXANO8MGw">
+                <Unsplash>
+                    <div style={
+                        width: "100%", 
+                        height: "100vh",
+                        display: "flex"
+                        alignItems: "center",
+                        justifyContent: "center"}>
+                        <h1 style={
+                            fontSize: "96px",
+                            fontWeight: "700",
+                            lineHeight: "1",
+                            color: "white",
+                            textShadow: "0 0 10px rgba(0,0,0,0.5)"
+                        }>{"Le Mont Saint-Michel"}
+                <Unsplash id="sk3BZ5HsYTI" />
+                <TwoColumnExample />
+                <Hero1 />
+                <Hero2 />
+                <Zlide />
 
 init()

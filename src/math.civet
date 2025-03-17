@@ -1,0 +1,71 @@
+import React, { createContext, useContext, useEffect, useRef, useState } from 'react';
+
+declare global {
+  interface Window {
+    MathJax: {
+      [key: string]: any; 
+    };
+  }
+}
+
+MathJaxContext := createContext isMathJaxLoaded: false
+
+export MathJaxProvider := ({ children }) =>
+    [isMathJaxLoaded, setIsMathJaxLoaded] := useState false
+
+    useEffect 
+        =>
+            if window.MathJax
+                setIsMathJaxLoaded true
+                return
+            script := document.createElement "script"
+            script.src = "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+            script.id = "MathJax-script"
+            script.async = true
+            script.onload = => setIsMathJaxLoaded true
+            script |> document.head.appendChild
+            // Cleanup
+            => 
+                console.log "Cleaning up MathJax"
+                if script
+                    script |> document.head.removeChild;
+                if window.MathJax 
+                    delete window.MathJax
+                return
+        []
+
+    <MathJaxContext.Provider value={{ isMathJaxLoaded }}>
+      {children}
+
+
+// TODO: allow for displaymath as well as inline math.
+export Math := ({children}) =>
+    mathJaxRef := useRef null
+    { isMathJaxLoaded } := useContext MathJaxContext 
+
+    useEffect 
+        => 
+            async do
+                if isMathJaxLoaded and window.MathJax
+                    window.MathJax.texReset()
+                    window.MathJax.typesetClear()
+                    try
+                        console.log "ref:", mathJaxRef.current
+                        await window.MathJax.typesetPromise [mathJaxRef.current]
+                        console.log "MathJax rendering complete";
+                    catch err
+                        console.error "MathJax rendering error:", err;
+            ;
+        [children, isMathJaxLoaded]
+
+    <div ref={mathJaxRef}> // need span for inline math (in paragraphs)
+        {children}
+
+export MathExample := =>
+    r := String.raw
+    <MathJaxProvider>
+        <div style={width: "100%", height: "100wh"}>
+        <h1>MathJax in React
+        Zoh
+        <Math>{r`I can jdskdjskdsj d \[ \int_{a}^{b} x^2 \,dx \] dsjdksdjsjd`}
+        Zuh

@@ -5,8 +5,8 @@
   "type": "module",
   "scripts": {
     "clean": "rm -rf *.civet.tsx *.css",
-    "build": "civet styles.civet > styles.css && civet -c *.civet && esbuild app.civet.tsx --minify --bundle --format=esm --outfile=app.js",
-    "watch": "watchexec -w app.civet -w styles.civet -w index.html -- npm run build",
+    "build": "civet styles.civet > styles.css && civet -c *.civet src/*.civet && esbuild src/app.civet.tsx --bundle --format=esm --outfile=app.js",
+    "watch": "watchexec -e civet,html -- npm run build",
     "serve": "http-server"
   },
   "author": "",
