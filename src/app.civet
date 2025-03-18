@@ -296,7 +296,7 @@ async function init()
 
     // Render
     root.render
-        <StrictMode> // Issue with cleanup. How is doing better-mathjax-react in this respect?
+        <StrictMode> <!-- Issue with MathJax cleanup in StrictMode -->
             <Deck>
                 <MathExample />
                 <ThreeBox />
