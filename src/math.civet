@@ -2,9 +2,9 @@ import React from 'react'
 import { createContext, useContext, useEffect, useRef, useState } from 'react'
 
 declare global
-  interface Window
-    MathJax:
-      [key: string]: any
+    interface Window
+        MathJax:
+            [key: string]: any
 
 MathJaxBaseContext := createContext isMathJaxLoaded: false
 
