@@ -10,14 +10,8 @@ import remarkMath from 'remark-math'
 // import rehypeMathjax from 'rehype-mathjax'  
 // import { MathJaxContext, MathJax } from 'better-react-mathjax'
 import { MathExample } from './math.civet'
-
-import {ThreeBox} from './threebox.civet'
-
-
-import { createHighlighterCore } from 'shiki/core'
-import { createJavaScriptRegexEngine } from 'shiki/engine/javascript'
-import gitHubDark from '@shikijs/themes/github-dark'
-import js from '@shikijs/langs/javascript'
+import { ThreeBox } from './threebox.civet'
+import { CodeExample } from './code.civet'
 
 r := String.raw
 
@@ -220,33 +214,6 @@ Unsplash := ({id="Y19hE9fAOG4", width=1920, children})=>
 
 
 
-CodeExample := =>
-    code := ```
-    function hello__() {
-        console.log('Hello, world!');
-    }
-    const doIt = () => {
-        hello__(); // Or don't !!!
-    }
-    ```
-    html := highlighter.codeToHtml code, lang: "js", theme: "github-dark"
-    <div 
-        style={            
-            display: "flex"
-            alignItems: "center"
-            justifyContent: "center"
-            height: "100vh"
-        }>
-        <div 
-            style={
-                fontSize: "36px"
-                padding: "1em"
-                borderRadius: "0.25em"
-                width: "fit-content"
-                background: "github-dark" |> highlighter.getTheme |> .bg
-            }>
-            <div dangerouslySetInnerHTML={ __html: html }>
-
 
 TextSubmit := ({onSubmit}) =>
     [inputValue, setInputValue] := useState ""
@@ -280,47 +247,31 @@ TextSubmit := ({onSubmit}) =>
 //         {value}
         
 
-root := ReactDOM.createRoot document.body
 
-highlighter = null
-//pyodide = null
-
-async function init()
-    // Shiki Async
-    highlighter = await createHighlighterCore
-        themes: [gitHubDark]
-        langs: [js]
-        engine: createJavaScriptRegexEngine()
-    // Pyodide Async
-    //pyodide = await loadPyodide()
-
-    // Render
-    root.render
-        <StrictMode> <!-- Issue with MathJax cleanup in StrictMode -->
-            <Deck>
-                <MathExample />
-                <ThreeBox />
-                <!-- <PythonExample /> -->
-                <CodeExample />
-                <Unsplash id="EvKXANO8MGw">
-                <Unsplash>
-                    <div style={
-                        width: "100%", 
-                        height: "100vh",
-                        display: "flex"
-                        alignItems: "center",
-                        justifyContent: "center"}>
-                        <h1 style={
-                            fontSize: "96px",
-                            fontWeight: "700",
-                            lineHeight: "1",
-                            color: "white",
-                            textShadow: "0 0 10px rgba(0,0,0,0.5)"
-                        }>{"Le Mont Saint-Michel"}
-                <Unsplash id="sk3BZ5HsYTI" />
-                <TwoColumnExample />
-                <Hero1 />
-                <Hero2 />
-                <Zlide />
-
-init()
+document.body |> ReactDOM.createRoot |> .render
+    <StrictMode> 
+        <Deck>
+            <CodeExample />
+            <MathExample />
+            <ThreeBox />
+            <!-- <PythonExample /> -->
+            <Unsplash id="EvKXANO8MGw">
+            <Unsplash>
+                <div style={
+                    width: "100%", 
+                    height: "100vh",
+                    display: "flex"
+                    alignItems: "center",
+                    justifyContent: "center"}>
+                    <h1 style={
+                        fontSize: "96px",
+                        fontWeight: "700",
+                        lineHeight: "1",
+                        color: "white",
+                        textShadow: "0 0 10px rgba(0,0,0,0.5)"
+                    }>{"Le Mont Saint-Michel"}
+            <Unsplash id="sk3BZ5HsYTI" />
+            <TwoColumnExample />
+            <Hero1 />
+            <Hero2 />
+            <Zlide />
