@@ -1,0 +1,72 @@
+// @ts-nocheck
+"civet autoLet react"
+import React from 'react'
+import { createContext, useContext, useEffect, useRef, useState } from 'react'
+
+import { createHighlighterCore } from 'shiki/core'
+import { createJavaScriptRegexEngine } from 'shiki/engine/javascript'
+import gitHubDark from '@shikijs/themes/github-dark'
+import js from '@shikijs/langs/javascript'
+
+CodeBaseContext := createContext highlighter: null
+
+export CodeContext := ({children}) =>
+    [highlighter, setHighlighter] := useState null
+    useEffect
+        =>
+            async do
+                if highlighter is null
+                    createHighlighterCore
+                        themes: [gitHubDark]
+                        langs: [js]
+                        engine: createJavaScriptRegexEngine()
+                    |> await |> setHighlighter
+            return
+        []
+    <CodeBaseContext.Provider value={{highlighter}}>
+        {children}
+
+export Code := ({children}) =>
+    { highlighter } := useContext CodeBaseContext
+
+    code := children
+    console.log "highlighter", highlighter
+
+    html = "" // TODO: improve this
+    background = "black"
+
+    if highlighter
+        html = highlighter.codeToHtml code, lang: "js", theme: "github-dark"
+        background = "github-dark" |> highlighter.getTheme |> .bg
+
+    <div 
+        style={            
+            display: "flex"
+            alignItems: "center"
+            justifyContent: "center"
+            height: "100vh"
+        }>
+        <div 
+            style={
+                fontSize: "36px"
+                padding: "1em"
+                borderRadius: "0.25em"
+                width: "fit-content"
+                background: background
+            }>
+            {
+                if html
+                    <div dangerouslySetInnerHTML={ __html: html }>
+            }
+
+export CodeExample := =>
+    code := ```
+    function hello__() {
+        console.log('Hello, world!');
+    }
+    const doIt = () => {
+        hello__(); // Or don't !!!
+    }
+    ```
+    <Code>
+        {code}
