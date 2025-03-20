@@ -9,7 +9,7 @@ import remarkMath from 'remark-math'
 
 // import rehypeMathjax from 'rehype-mathjax'  
 // import { MathJaxContext, MathJax } from 'better-react-mathjax'
-import { installGlobalStyles } from './styles.civet'
+import { style } from './styles.civet'
 
 import { MathExample } from './math.civet'
 import { ThreeBox } from './threebox.civet'
@@ -234,16 +234,7 @@ TextSubmit := ({onSubmit}) =>
       <button type="submit">
         Submit
 
-// PythonExample := =>
-//     [value, setValue] := useState ""
-
-//     <TextSubmit onSubmit={(code) => code |> pyodide.runPython |> setValue} />
-//     <pre>
-//         {value}
-        
-
-installGlobalStyles()
-
+document.head.appendChild style
 document.body |> ReactDOM.createRoot |> .render
     <StrictMode> 
         <Deck>

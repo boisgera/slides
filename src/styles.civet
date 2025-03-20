@@ -29,9 +29,6 @@ css :=
 
 cssText := css |> {'@global': &} |> jss.createStyleSheet |> .toString()
 
-export installGlobalStyles := =>
-    if not document.getElementById "stylish"
-        style := document.createElement "style"
-        style.id = "stylish"
-        style.textContent = cssText
-        style |> document.head.appendChild
+export style = document.createElement "style"
+style.id = "stylish"
+style.textContent = cssText
