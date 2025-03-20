@@ -1,0 +1,37 @@
+"civet autoLet react"
+import { create } from 'jss'
+// @ts-ignore
+import jss_preset from 'jss-preset-default'; preset := jss_preset 
+
+// console.log "***", jss_preset
+
+jss := preset() |> create
+
+import React, {useLayoutEffect} from "react"
+
+css := 
+    "*":
+        margin: "0px"
+        padding: "0px"
+        boxSizing: "border-box"
+    html:
+        fontFamily: ["Inter", "sans-serif"]
+        fontSize: "18px"
+        fontWeight: 400
+        lineHeight: 1.5
+        color: "black"
+        backgroundColor: "white"
+    code:
+        fontFamily: ["Jetbrains Mono", "monospace"]   
+        fontSize: "inherit"
+        lineHeight: "inherit"
+        fontWeight: 400
+
+cssText := css |> {'@global': &} |> jss.createStyleSheet |> .toString()
+
+export installGlobalStyles := =>
+    if not document.getElementById "stylish"
+        style := document.createElement "style"
+        style.id = "stylish"
+        style.textContent = cssText
+        style |> document.head.appendChild
