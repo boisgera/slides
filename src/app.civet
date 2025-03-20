@@ -11,7 +11,7 @@ import remarkMath from 'remark-math'
 // import { MathJaxContext, MathJax } from 'better-react-mathjax'
 import { style } from './styles.civet'
 
-import { MathExample } from './math.civet'
+import { math, MathJaxContext } from './math.civet'
 import { ThreeBox } from './threebox.civet'
 import { CodeExample } from './code.civet'
 import { UnsplashExample } from './unsplash.civet'
@@ -168,46 +168,6 @@ TwoColumnExample := =>
                         <li>Butter
                         <li>Cheese
 
-MdMathSlide := =>
-    md := r"""
-    ```math
-    \int_0^\infty e^{-x^2} dx = \frac{\sqrt{\pi}}{2}
-    ```
-    """
-    <p>
-        <Markdown remarkPlugins={[remarkMath]}>
-            {md}
-
-
-MdSlide := => // TODO: solve the double \ issue in Math?
-    markdown := '''
-    # Hi, Math!
-    ```math
-    I := \\int_0^{\\infty} e^{-x^2} dx = \\frac{\\sqrt{\\pi}}{2}
-    ```
-
-    '''
-    <div style={fontSize: "72px"}>
-        <Markdown 
-            remarkPlugins={[remarkMath]}> 
-            <!-- rehypePlugins={[rehypeMathjax]} -->
-            {markdown}
-
-
-
-// MathSlide1 := =>
-//     <MathJax>
-//         <div style={height: "100vh", display: "flex", justifyContent: "center", alignItems: "center"}>
-//             <p style={display: "inline-block", fontSize: "96px"}>
-//                 {r`$$\int_0^{\infty} e^{-x^2} dx = \frac{\sqrt{\pi}}{2}$$`}
-
-// MathSlide2 := =>
-//     <MathJax>
-//         <div style={height: "100vh", display: "flex", justifyContent: "center", alignItems: "center"}>
-//             <p style={display: "inline-block", fontSize: "96px"}>
-//                 {r`$$\mathbb{E}[X] = \mathbb{E}\left[\mathbb{E}[X | Y]\right]$$`}
-
-
 
 
 TextSubmit := ({onSubmit}) =>
@@ -234,16 +194,52 @@ TextSubmit := ({onSubmit}) =>
       <button type="submit">
         Submit
 
+
+// Nota: clearly need some Markdown support here ... with or without MathJax?
+Slide1 := => 
+    <div 
+        style={
+            display: "flex"
+            flexDirection: "column"
+            alignItems: "center"
+            justifyContent: "center"
+            width: "100%"
+            height: "100vh"
+            padding: "1.5rem calc((100% - 45ch) / 2)"            
+        }
+        >
+        <h3>Equilibrium
+        <p>
+            <math.span>
+                {r```
+                An equilibrium of system \(\dot{x} = f(x)\) is a state
+                \(x_e\)
+                such that the maximal solution 
+                \(x(t)\)
+                such that
+                \(x(0) = x_e\)
+                ```}
+        <ul>
+            <li> is global and,
+            <li> 
+                <math.span>
+                    {r```
+                    is \(x(t) = x_e\)
+                    for any \(t \geq 0\)
+                    ```}
+
+
 document.head.appendChild style
 document.body |> ReactDOM.createRoot |> .render
     <StrictMode> 
-        <Deck>
-            <CodeExample />
-            <MathExample />
-            <ThreeBox />
-            <!-- <PythonExample /> -->
-            <UnsplashExample />
-            <TwoColumnExample />
-            <Hero1 />
-            <Hero2 />
-            <Zlide />
+        <MathJaxContext>
+            <Deck>
+                <Slide1 />
+                <CodeExample />
+                <ThreeBox />
+                <!-- <PythonExample /> -->
+                <UnsplashExample />
+                <TwoColumnExample />
+                <Hero1 />
+                <Hero2 />
+                <Zlide />
