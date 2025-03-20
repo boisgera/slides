@@ -68,6 +68,5 @@ export CodeExample := =>
         hello__(); // Or don't !!!
     }
     ```
-    <CodeContext>
-        <Code>
-            {code}
+    <Code>
+        {code}

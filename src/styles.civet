@@ -23,13 +23,16 @@ css :=
         lineHeight: 1.0
         marginBottom: "0.75rem"
     p: 
-        marginBottom: "0.75rem"
+        marginBottom: "calc(0.75rem/2)"
+    "li > p":
+        display: "inline-block"
+        marginBottom: "0rem"
     ul:
         display: "inline-block"
     li:
         listStylePosition: "inside"
         paddingLeft: 0
-        marginBottom: "0.75rem"
+        marginBottom: "calc(0.75rem / 2)"
     code:
         fontFamily: ["Jetbrains Mono", "monospace"]   
         fontSize: "inherit"
