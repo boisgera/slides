@@ -1,0 +1,71 @@
+import React from 'react'
+import { createContext, useContext, useEffect, useRef, useState } from 'react'
+
+declare global
+    interface Window
+        MathJax:
+            [key: string]: any
+
+MathJaxBaseContext := createContext isMathJaxLoaded: false
+
+export MathJaxContext := ({children}) =>
+    [isMathJaxLoaded, setIsMathJaxLoaded] := useState false
+    scriptRef := useRef null
+    useEffect 
+        =>  
+            if not scriptRef.current
+                if window.MathJax
+                    setIsMathJaxLoaded true
+                    return
+                script := document.createElement "script"
+                script.src = "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+                script.id = "MathJax-script"
+                script.async = true
+                script.onload = => setIsMathJaxLoaded true
+                script |> document.head.appendChild
+                scriptRef.current = script
+            return
+        []
+
+    <MathJaxBaseContext.Provider value={isMathJaxLoaded: isMathJaxLoaded}>
+      {children}
+
+
+Math := ({...props, tag="div", children}) =>
+    mathJaxRef := useRef null
+    { isMathJaxLoaded } := useContext MathJaxBaseContext 
+    useEffect 
+        => 
+            async do
+                if isMathJaxLoaded and window.MathJax
+                    try
+                        await window.MathJax.typesetPromise [mathJaxRef.current]
+                        console.log "MathJax fragment rendering complete";
+                    catch err 
+                        console.error "MathJax rendering error:", err;
+            return
+        [children, isMathJaxLoaded]
+    if tag == "span"
+        <span ...props ref={mathJaxRef}> 
+            {children}
+    else
+        <div ...props ref={mathJaxRef}> 
+            {children}
+
+export math =
+    span : ({...props, children}) => <Math ...props tag="span">{children}
+    div : ({...props, children}) => <Math ...props tag="div">{children}
+
+r := String.raw
+
+export MathExample := =>
+    style :=
+        width: "100%"
+        height: "100vh"
+        display: "flex"
+        fontSize: "96px"
+        justifyContent: "center"
+        alignItems: "center"
+    <MathJaxContext>
+        <math.div {style}>
+            {r`\[ \int_0^1 f(x) \,dx \]`}

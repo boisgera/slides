@@ -1,0 +1,48 @@
+{
+  "name": "slides",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "clean": "rm -rf *.civet.tsx *.css",
+    "build": "civet -c *.civet src/*.civet && esbuild src/app.civet.tsx --bundle --format=esm --outfile=app.js",
+    "watch": "watchexec -e civet,html -- npm run build",
+    "serve": "http-server"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@react-three/fiber": "^9.1.0",
+    "@shikijs/langs": "^3.2.1",
+    "@shikijs/themes": "^3.2.1",
+    "better-react-mathjax": "^2.1.0",
+    "jss": "^10.10.0",
+    "jss-preset-default": "^10.10.0",
+    "motion": "^12.4.10",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "react-jss": "^10.10.0",
+    "react-markdown": "^10.1.0",
+    "rehype-mathjax": "^7.1.0",
+    "remark-math": "^6.0.0",
+    "shiki": "^3.2.1",
+    "three": "^0.174.0"
+  },
+  "devDependencies": {
+    "@danielx/civet": "^0.9.7",
+    "@eslint/js": "^9.21.0",
+    "@types/react": "^19.0.10",
+    "@types/react-dom": "^19.0.4",
+    "@vitejs/plugin-react": "^4.3.4",
+    "esbuild": "^0.25.0",
+    "eslint": "^9.21.0",
+    "eslint-plugin-react-hooks": "^5.1.0",
+    "eslint-plugin-react-refresh": "^0.4.19",
+    "globals": "^15.15.0",
+    "http-server": "^14.1.1",
+    "typescript": "~5.7.2",
+    "typescript-eslint": "^8.24.1",
+    "vite": "^6.2.3"
+  }
+}

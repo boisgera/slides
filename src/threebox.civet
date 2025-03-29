@@ -1,0 +1,36 @@
+// @ts-nocheck
+import React, {useRef, useState} from "react"
+import { Canvas, useFrame } from "@react-three/fiber";
+
+export Box := (props) =>
+    mesh := useRef null
+    [hovered, setHover] := useState false
+    [active, setActive] := useState false
+    useFrame (_state, delta) => mesh.current.rotation.x += delta
+    <mesh
+        {...props}
+        ref=mesh
+        scale={active ? 1.5 : 1.0}
+        onClick={=> setActive not active}
+        onPointerOver={=> setHover true}
+        onPointerOut={=> setHover false}>
+        <boxGeometry args=[1, 1, 1]>
+        <meshStandardMaterial 
+            color={if hovered then "hotpink" else "orange"}>
+
+export ThreeBox := =>
+    <div style={width: "100vw", height: "100vh"}> 
+        <Canvas>
+            <ambientLight intensity=Math.PI/2>
+            <spotLight 
+                position=[10, 10, 10]
+                angle=0.15 
+                penumbra=1 
+                decay=0
+                intensity=Math.PI>
+            <pointLight 
+                position=[-10, -10, -10] 
+                decay=0
+                intensity=Math.PI>
+            <Box position=[-1.2, 0, 0]>
+            <Box position=[1.2, 0, 0]>

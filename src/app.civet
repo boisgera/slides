@@ -1,0 +1,315 @@
+// @ts-nocheck
+"civet autoLet react jsxCode"
+
+import React from "react"
+import {StrictMode, useContext, useEffect, useRef, useState} from "react" 
+import ReactDOM from "react-dom/client"
+import {motion, MotionStyle} from "motion/react"
+import {createUseStyles} from "react-jss"
+
+import Markdown from "react-markdown"
+import remarkMath from "remark-math"
+import rehypeMathjax from "rehype-mathjax"
+
+// <style> HTML Element
+import { style } from './styles.civet'
+
+// import { math, MathJaxContext } from './math.civet'
+import {ThreeBox} from "./threebox.civet"
+import {CodeContext, Code, CodeExample} from "./code.civet"
+import {UnsplashExample} from "./unsplash.civet"
+
+r := String.raw
+
+useStyles := createUseStyles
+  "slide":
+    margin: "0rem"
+    padding: "3rem"
+    height: "100vh"
+    width: "100vw"
+    background: "white"
+
+InterHero := => 
+  style :=
+    fontSize: "96px"
+    fontWeight: "700"
+    lineHeight: "1" 
+    width: "100vw"
+    height: "100vh"
+    display: "flex"
+    alignItems: "center"
+    textAlign: "center"
+  <motion.div 
+    {style} 
+    initial={scale:0.2} 
+    animate={scale:1}>
+    <h1>
+      "The Inter Typeface"
+
+DontJustReadItFightIt := => 
+  classes := useStyles()
+  style :=
+    fontSize: "72px"
+    fontWeight: "700"
+    lineHeight: "1" 
+    width: "100vw"
+    height: "100vh"
+    display: "flex"
+    alignItems: "center"
+    justifyContent: "center"
+  <div {style}>
+    <motion.h1 
+      whileHover={scale: 0.9} 
+      style=
+        textAlign: "center", 
+        display: "block"
+    >
+      <span>
+        "Don't just read it;"
+      <br> 
+      <span>
+        "Fight it!"
+
+AboutInter := => 
+  classes := useStyles()
+  style :=
+    fontSize: "96px"
+    fontWeight: "700"
+    lineHeight: "1" 
+    marginBottom: "0.5em"
+  <div .{classes.slide} >
+    <h1 {style}>
+      "The Inter Typeface"
+    <p>
+      """
+      Inter is one of the world's most used typefaces 
+      with applications ranging from computer interfaces, 
+      advertising & airports, 
+      to NASA instrumentation & medical equipment
+      """
+
+type NumberStateHook = [number, React.Dispatch<React.SetStateAction<number>>]
+
+useFragmentState := (initialIndex = 0) : NumberStateHook =>
+  // Parse the current URL fragment to get the initial index
+  getIndexFromFragment := =>
+    fragment := window.location.hash.replace("#", "");
+    if fragment then parseInt(fragment, 10) else initialIndex
+
+  [index, setIndex] := useState getIndexFromFragment()
+  
+  // Update the URL fragment whenever the index changes
+  useEffect
+    => 
+        window.location.hash = index.toString()
+        return
+    [index]
+
+  // Listen for changes to the URL fragment (e.g., back/forward navigation)
+  useEffect 
+    => 
+      handleHashChange := =>
+        newIndex := getIndexFromFragment()
+        if newIndex is not index
+          setIndex newIndex
+      window.addEventListener "hashchange", handleHashChange
+      => window.removeEventListener "hashchange", handleHashChange
+    [index]
+
+  [index, setIndex]
+
+
+Deck := ({children}) =>
+  [index, setIndex] := useFragmentState 0
+
+  useEffect 
+    =>
+      onKeyDown := (event) =>
+        if event.key is "ArrowRight"
+            setIndex (index) => 
+                Math.min index + 1, children.length - 1
+        if event.key is "ArrowLeft"
+            setIndex (index) => 
+                Math.max index - 1, 0
+      document.addEventListener "keydown", onKeyDown
+      => document.removeEventListener "keydown", onKeyDown
+    []
+
+  children[index]
+
+
+useTCStyles := createUseStyles 
+  text: 
+    backgroundClip: "text"
+    WebkitBackgroundClip: "text"
+
+TwoColumnExample := =>
+  classes := useTCStyles()
+  <div>
+    <header>
+      <h2 style = {textAlign: "center", fontSize: "72px"}>
+        "Two Column"
+        <span 
+          .{classes.text} 
+          style =
+            color: "transparent"
+            background: "linear-gradient(90deg, #ff7e5f, #feb47b, #ff6a00)"
+            backgroundClip: "text"
+            WebkitBackgroundClip: "text"
+        > 
+          " Layout "
+        "Example"
+      <div style={display: "flex"}>
+        <div style={flex: 1, margin: "2em"}>
+          <h2 style={fontSize: "60px"}>"Lorem Ipsum"
+          <p style={"fontSize": "24px"}>"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+        <div style={flex: 1, margin: "2em"}>
+          <h2 style={fontSize: "60px"}>"TODO List" 
+          <p style={fontSize: "36px"}>
+            <ul style={listStylePosition: "inside"}>
+              <li>"Bread"
+              <li>"Milk"
+              <li>"Butter"
+              <li>"Cheese"
+
+TextSubmit := ({onSubmit}) =>
+    [inputValue, setInputValue] := useState ""
+
+    handleInputChange := (event) =>
+      setInputValue event.target.value
+  
+    handleSubmit := (event) =>
+      event.preventDefault()
+      onSubmit inputValue
+      setInputValue ""
+
+    <form onSubmit={handleSubmit}>
+      <label htmlFor="textInput">
+        "Enter Text:"
+      <input
+        type="text"
+        id="textInput"
+        value={inputValue}
+        onChange={handleInputChange}
+        placeholder="Type something...">
+      <button type="submit">
+        "Submit"
+
+// // Nota: clearly need some Markdown support here ... with or without MathJax?
+// Slide1 := => 
+//     <div 
+//         style={
+//             display: "flex"
+//             flexDirection: "column"
+//             alignItems: "center"
+//             justifyContent: "center"
+//             width: "100%"
+//             height: "100vh"
+//             padding: "1.5rem calc((100% - 45ch) / 2)"            
+//         }
+//         >
+//         <h3>Equilibrium
+//         <p>
+//             <math.span>
+//                 {r```
+//                 An equilibrium of system \(\dot{x} = f(x)\) is a state
+//                 \(x_e\)
+//                 for which the maximal solution 
+//                 \(x(t)\)
+//                 such that
+//                 \(x(0) = x_e\)
+//                 ```}
+//         <ul>
+//             <li> is global and
+//             <li> 
+//                 <math.span>
+//                     {r```
+//                     is \(x(t) = x_e\)
+//                     for any \(t \geq 0\)
+//                     ```}
+
+s1 := r```
+### 🏷️ Equilibrium
+
+An **equilibrium** of system $\dot{x} = f(x)$ is a state $x_e$
+for which the maximal solution $x(t)$ such that $x(0) = x_e$
+
+- is global and
+
+- $x(t) = x_e$ for any $t > 0$.
+```
+
+s2 := r```
+### 💎 Equilibrium
+
+The state $x_e$ is an equilibrium of $\dot{x} = f(x)$
+
+$$\Longleftrightarrow$$
+
+$$f(x_e) = 0.$$
+```
+
+Page := ({children}) =>
+  style :=
+    display: "flex"
+    flexDirection: "column"
+    alignItems: "center"
+    justifyContent: "center"
+    width: "100%"
+    height: "100vh"
+    padding: "1.5rem calc((100% - 45ch) / 2)"
+  <div {style}>
+    children
+
+
+document.head.appendChild style
+document.body |> ReactDOM.createRoot |> .render
+  <StrictMode> 
+    <CodeContext>
+      <Deck>
+        <Page>
+          <Markdown 
+            remarkPlugins=[remarkMath] 
+            rehypePlugins=[rehypeMathjax]>
+            s1
+        <Page>
+          <Markdown 
+            remarkPlugins=[remarkMath] 
+            rehypePlugins=[rehypeMathjax]>
+            s2
+        <Page>
+          <Markdown 
+            remarkPlugins=[remarkMath] 
+            rehypePlugins=[rehypeMathjax]>
+            """
+            ### 🐍 Streamplot Helper
+
+            (need to apply Shiki to this)
+            
+                def Q(f, xs, ys):
+                    X, Y = meshgrid(xs, ys)
+                    v = vectorize
+                    fx = v(lambda x, y: f([x, y])[0])
+                    fy = v(lambda x, y: f([x, y])[1])
+                    return X, Y, fx(X, Y), fy(X, Y)
+            """
+
+        <Page>
+          <h3> "🐍 Streamplot Helper"
+          <Code>
+            """
+            def Q(f, xs, ys):
+                X, Y = meshgrid(xs, ys)
+                v = vectorize
+                fx = v(lambda x, y: f([x, y])[0])
+                fy = v(lambda x, y: f([x, y])[1])
+                return X, Y, fx(X, Y), fy(X, Y)
+            """
+        <CodeExample />
+        <ThreeBox />
+        <!-- <PythonExample /> -->
+        <UnsplashExample />
+        <TwoColumnExample />
+        <InterHero />
+        <DontJustReadItFightIt /> // Issue here
+        <AboutInter />
