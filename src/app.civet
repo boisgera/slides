@@ -4,20 +4,23 @@
 import React from "react"
 import {StrictMode, useContext, useEffect, useRef, useState} from "react" 
 import ReactDOM from "react-dom/client"
+
 import {motion, MotionStyle} from "motion/react"
 import {createUseStyles} from "react-jss"
 
-import Markdown from "react-markdown"
-import remarkMath from "remark-math"
-import rehypeMathjax from "rehype-mathjax"
-
+import "./index.css" // Arf, would need Vite magic, not available yet
 // <style> HTML Element
-import { style } from './styles.civet'
+// import { styleElement } from './styles.civet'
+
+
+
+
 
 // import { math, MathJaxContext } from './math.civet'
 import {ThreeBox} from "./threebox.civet"
 import {CodeContext, Code, CodeExample} from "./code.civet"
 import {UnsplashExample} from "./unsplash.civet"
+import Markdown from "./Markdown"
 
 r := String.raw
 
@@ -262,25 +265,28 @@ Page := ({children}) =>
     children
 
 
-document.head.appendChild style
+// document.head.appendChild styleElement
 document.body |> ReactDOM.createRoot |> .render
   <StrictMode> 
     <CodeContext>
       <Deck>
         <Page>
-          <Markdown 
-            remarkPlugins=[remarkMath] 
-            rehypePlugins=[rehypeMathjax]>
+          <Markdown>
+            """
+            # Zoubizou!
+
+            $$
+            \\int_0^1 f(x) \\, dx
+            $$
+            """        
+        <Page>
+          <Markdown>
             s1
         <Page>
-          <Markdown 
-            remarkPlugins=[remarkMath] 
-            rehypePlugins=[rehypeMathjax]>
+          <Markdown>
             s2
         <Page>
-          <Markdown 
-            remarkPlugins=[remarkMath] 
-            rehypePlugins=[rehypeMathjax]>
+          <Markdown>
             """
             ### 🐍 Streamplot Helper
 
@@ -311,5 +317,5 @@ document.body |> ReactDOM.createRoot |> .render
         <UnsplashExample />
         <TwoColumnExample />
         <InterHero />
-        <DontJustReadItFightIt /> // Issue here
+        <DontJustReadItFightIt />
         <AboutInter />

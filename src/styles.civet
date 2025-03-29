@@ -41,6 +41,8 @@ css :=
 
 cssText := css |> {'@global': &} |> jss.createStyleSheet |> .toString()
 
-export style = document.createElement "style"
-style.id = "stylish"
-style.textContent = cssText
+console.log cssText
+
+export styleElement = document.createElement "style"
+styleElement.id = "stylish"
+styleElement.textContent = cssText

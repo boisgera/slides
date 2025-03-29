@@ -7,7 +7,12 @@
     "clean": "rm -rf *.civet.tsx *.css",
     "build": "civet -c *.civet src/*.civet && esbuild src/app.civet.tsx --bundle --format=esm --outfile=app.js",
     "watch": "watchexec -e civet,html -- npm run build",
-    "serve": "http-server"
+    "serve": "http-server",
+
+    "dev": "vite",
+    "_build": "tsc -b && vite build",
+    "_lint": "eslint .",
+    "_preview": "vite preview"
   },
   "author": "",
   "license": "ISC",

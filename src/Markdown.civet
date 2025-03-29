@@ -1,0 +1,12 @@
+"civet autoLet react jsxCode"
+import BaseMarkdown from "react-markdown"
+import remarkMath from "remark-math"
+import rehypeMathjax from "rehype-mathjax"
+
+// TODO:
+//   - Transform code elements using shiki 
+//   - Output a single page (?)
+
+export default Markdown := ({children})=>
+  <BaseMarkdown remarkPlugins=[remarkMath] rehypePlugins=[rehypeMathjax]>
+    children
