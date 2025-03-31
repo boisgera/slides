@@ -272,13 +272,17 @@ document.body |> ReactDOM.createRoot |> .render
       <Deck>
         <Page>
           <Markdown>
-            """
+            r```
             # Zoubizou!
 
             $$
-            \\int_0^1 f(x) \\, dx
+            \int_0^1 f(x) \, dx
             $$
-            """        
+
+            $$
+            z := {\color{red} x} + {\color{blue} y}
+            $$
+            ```        
         <Page>
           <Markdown>
             s1
