@@ -8,7 +8,6 @@
     "build": "civet -c *.civet src/*.civet && esbuild src/app.civet.tsx --bundle --format=esm --outfile=app.js",
     "watch": "watchexec -e civet,html -- npm run build",
     "serve": "http-server",
-
     "dev": "vite",
     "_build": "tsc -b && vite build",
     "_lint": "eslint .",
@@ -30,6 +29,8 @@
     "react-jss": "^10.10.0",
     "react-markdown": "^10.1.0",
     "rehype-mathjax": "^7.1.0",
+    "remark-directive": "^4.0.0",
+    "remark-directive-rehype": "^0.4.2",
     "remark-math": "^6.0.0",
     "shiki": "^3.2.1",
     "three": "^0.174.0"

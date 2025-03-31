@@ -271,6 +271,25 @@ document.body |> ReactDOM.createRoot |> .render
     <CodeContext>
       <Deck>
         <Page>
+          <Markdown> 
+            r```
+            :::documentation-page{title="Welcome"}
+
+            Please install :inline-code[unified]!
+
+            $$
+            \frac{1+2}{3}
+            $$
+
+            ::copyright-notice{year="2020"}
+
+            ### Grumpy Cat   
+
+            ::youtube-video[Video of a cat in a box]{#INscMGmhmX4}
+
+            :::
+            ```
+        <Page>
           <Markdown>
             r```
             # Zoubizou!

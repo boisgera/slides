@@ -1,12 +1,41 @@
 "civet autoLet react jsxCode"
 import BaseMarkdown from "react-markdown"
+import remarkDirective from 'remark-directive'
 import remarkMath from "remark-math"
+import remarkDirectiveRehype from 'remark-directive-rehype'
 import rehypeMathjax from "rehype-mathjax"
+import {visit} from 'unist-util-visit'
 
 // TODO:
 //   - Transform code elements using shiki 
 //   - Output a single page (?)
+//   - Admonitions
+//   - Metadata/YAML blocks
+
+myRemarkPlugin := =>
+  (tree) =>
+    visit
+      tree 
+      (node) => console.log node
+
+YouTubeVideo := ({id, children}) =>
+  <iframe
+    src={`https://www.youtube.com/embed/${id}`}
+    width="200"
+    height="200"
+  >
+    children
 
 export default Markdown := ({children})=>
-  <BaseMarkdown remarkPlugins=[remarkMath] rehypePlugins=[rehypeMathjax]>
+  <BaseMarkdown 
+    remarkPlugins =
+      . myRemarkPlugin
+      . remarkDirective
+      . remarkDirectiveRehype
+      . remarkMath
+    rehypePlugins =
+      . rehypeMathjax 
+    components =
+      "youtube-video": YouTubeVideo
+  >
     children
