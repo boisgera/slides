@@ -1,4 +1,3 @@
-// @ts-nocheck
 "civet autoLet react jsxCode"
 
 import React from "react"
@@ -8,19 +7,13 @@ import ReactDOM from "react-dom/client"
 import {motion, MotionStyle} from "motion/react"
 import {createUseStyles} from "react-jss"
 
-import "./index.css" // Arf, would need Vite magic, not available yet
-// <style> HTML Element
-// import { styleElement } from './styles.civet'
-
-
-
-
+import "./index.css"
 
 // import { math, MathJaxContext } from './math.civet'
 import {ThreeBox} from "./threebox.civet"
 import {CodeContext, Code, CodeExample} from "./code.civet"
 import {UnsplashExample} from "./unsplash.civet"
-import Markdown from "./Markdown"
+import Markdown from "./Markdown.civet"
 
 r := String.raw
 
@@ -192,8 +185,8 @@ TextSubmit := ({onSubmit}) =>
       <input
         type="text"
         id="textInput"
-        value={inputValue}
-        onChange={handleInputChange}
+        value=inputValue
+        onChange=handleInputChange
         placeholder="Type something...">
       <button type="submit">
         "Submit"

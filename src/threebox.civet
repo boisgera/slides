@@ -1,4 +1,4 @@
-// @ts-nocheck
+"civet autoLet react jsxCode"
 import React, {useRef, useState} from "react"
 import { Canvas, useFrame } from "@react-three/fiber";
 
