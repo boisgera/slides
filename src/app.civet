@@ -2,6 +2,7 @@
 
 import React from "react"
 import {StrictMode, useContext, useEffect, useRef, useState} from "react" 
+//import type { CSSProperties } from 'react'
 import ReactDOM from "react-dom/client"
 
 import {motion, MotionStyle} from "motion/react"
@@ -34,7 +35,7 @@ InterHero := =>
     height: "100vh"
     display: "flex"
     alignItems: "center"
-    textAlign: "center"
+    textAlign: "center" as const  
   <motion.div 
     {style} 
     initial={scale:0.2} 
@@ -248,7 +249,7 @@ $$f(x_e) = 0.$$
 Page := ({children}) =>
   style :=
     display: "flex"
-    flexDirection: "column"
+    flexDirection: "column" as const
     alignItems: "center"
     justifyContent: "center"
     width: "100%"
