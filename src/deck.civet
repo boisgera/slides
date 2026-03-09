@@ -49,5 +49,6 @@ export Deck := ({children}) =>
       => document.removeEventListener "keydown", onKeyDown
     []
 
+  console.log "***", children[index]
   <CodeContext>
     children[index]

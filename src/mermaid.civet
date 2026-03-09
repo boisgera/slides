@@ -1,0 +1,47 @@
+"civet autoLet react jsxCode"
+import React from 'react'
+import {renderMermaidSVG} from 'beautiful-mermaid'
+import {Page} from './page.civet'
+
+export MermaidDiagram := ({ code }) =>
+  {svg, error} := React.useMemo
+    =>
+      try
+        svg: 
+          renderMermaidSVG 
+            code,
+            bg: 'var(--background)',
+            fg: 'var(--foreground)',
+            transparent: true,
+        error: null,
+      catch err
+        svg: null, 
+        error: 
+          if err <? Error 
+            err 
+          else 
+            err |> String |> new Error
+    [code]
+
+  if error 
+    <pre>
+      error.message
+  else
+    console.log "Rendered Mermaid SVG:", svg
+    <div 
+      dangerouslySetInnerHTML=
+        __html: svg
+    >
+
+export MermaidExample := =>
+  console.log "Rendering Mermaid diagram"
+  <Page>
+    <MermaidDiagram 
+      code="""
+        graph TD
+          A[Client] --> B[Load Balancer]
+          B --> C[Server 1]
+          B --> D[Server 2]
+          B --> E[Server 3]
+      """
+    >
