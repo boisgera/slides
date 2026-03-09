@@ -1,0 +1,53 @@
+"civet autoLet react jsxCode"
+
+import {useEffect, useState} from "react" 
+import {CodeContext} from "code.civet"
+
+type NumberStateHook = [number, React.Dispatch<React.SetStateAction<number>>]
+
+useFragmentState := (initialIndex = 0) : NumberStateHook =>
+  // Parse the current URL fragment to get the initial index
+  getIndexFromFragment := =>
+    fragment := window.location.hash.replace("#", "");
+    if fragment then parseInt(fragment, 10) else initialIndex
+  [index, setIndex] := useState getIndexFromFragment()
+  
+  // Update the URL fragment whenever the index changes
+  useEffect
+    => 
+        window.location.hash = index.toString()
+        return
+    [index]
+
+  // Listen for changes to the URL fragment (e.g., back/forward navigation)
+  useEffect 
+    => 
+      handleHashChange := =>
+        newIndex := getIndexFromFragment()
+        if newIndex is not index
+          setIndex newIndex
+      window.addEventListener "hashchange", handleHashChange
+      => window.removeEventListener "hashchange", handleHashChange
+    [index]
+
+  [index, setIndex]
+
+
+export Deck := ({children}) =>
+  [index, setIndex] := useFragmentState 0 // TODO: display slide number!
+
+  useEffect 
+    =>
+      onKeyDown := (event) =>
+        if event.key is "ArrowRight"
+            setIndex (index) => 
+                Math.min index + 1, children.length - 1
+        if event.key is "ArrowLeft"
+            setIndex (index) => 
+                Math.max index - 1, 0
+      document.addEventListener "keydown", onKeyDown
+      => document.removeEventListener "keydown", onKeyDown
+    []
+
+  <CodeContext>
+    children[index]

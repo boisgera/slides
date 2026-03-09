@@ -2,7 +2,6 @@
 
 import React from "react"
 import {StrictMode, useContext, useEffect, useRef, useState} from "react" 
-//import type { CSSProperties } from 'react'
 import ReactDOM from "react-dom/client"
 
 import {motion, MotionStyle} from "motion/react"
@@ -10,13 +9,17 @@ import {createUseStyles} from "react-jss"
 
 import "./index.css"
 
+import {Deck} from "./deck.civet"
+
 // import { math, MathJaxContext } from './math.civet'
 import {ThreeBox} from "./threebox.civet"
 import {CodeContext, Code, CodeExample} from "./code.civet"
 import {UnsplashExample} from "./unsplash.civet"
-import Markdown from "./Markdown.civet"
+import {Markdown} from "./markdown.civet"
 
 r := String.raw
+
+// TODO: externalize style experiments
 
 useStyles := createUseStyles
   "slide":
@@ -85,56 +88,6 @@ AboutInter := =>
       to NASA instrumentation & medical equipment
       """
 
-type NumberStateHook = [number, React.Dispatch<React.SetStateAction<number>>]
-
-useFragmentState := (initialIndex = 0) : NumberStateHook =>
-  // Parse the current URL fragment to get the initial index
-  getIndexFromFragment := =>
-    fragment := window.location.hash.replace("#", "");
-    if fragment then parseInt(fragment, 10) else initialIndex
-
-  [index, setIndex] := useState getIndexFromFragment()
-  
-  // Update the URL fragment whenever the index changes
-  useEffect
-    => 
-        window.location.hash = index.toString()
-        return
-    [index]
-
-  // Listen for changes to the URL fragment (e.g., back/forward navigation)
-  useEffect 
-    => 
-      handleHashChange := =>
-        newIndex := getIndexFromFragment()
-        if newIndex is not index
-          setIndex newIndex
-      window.addEventListener "hashchange", handleHashChange
-      => window.removeEventListener "hashchange", handleHashChange
-    [index]
-
-  [index, setIndex]
-
-
-Deck := ({children}) =>
-  [index, setIndex] := useFragmentState 0
-
-  useEffect 
-    =>
-      onKeyDown := (event) =>
-        if event.key is "ArrowRight"
-            setIndex (index) => 
-                Math.min index + 1, children.length - 1
-        if event.key is "ArrowLeft"
-            setIndex (index) => 
-                Math.max index - 1, 0
-      document.addEventListener "keydown", onKeyDown
-      => document.removeEventListener "keydown", onKeyDown
-    []
-
-  children[index]
-
-
 useTCStyles := createUseStyles 
   text: 
     backgroundClip: "text"
@@ -192,147 +145,97 @@ TextSubmit := ({onSubmit}) =>
       <button type="submit">
         "Submit"
 
-// // Nota: clearly need some Markdown support here ... with or without MathJax?
-// Slide1 := => 
-//     <div 
-//         style={
-//             display: "flex"
-//             flexDirection: "column"
-//             alignItems: "center"
-//             justifyContent: "center"
-//             width: "100%"
-//             height: "100vh"
-//             padding: "1.5rem calc((100% - 45ch) / 2)"            
-//         }
-//         >
-//         <h3>Equilibrium
-//         <p>
-//             <math.span>
-//                 {r```
-//                 An equilibrium of system \(\dot{x} = f(x)\) is a state
-//                 \(x_e\)
-//                 for which the maximal solution 
-//                 \(x(t)\)
-//                 such that
-//                 \(x(0) = x_e\)
-//                 ```}
-//         <ul>
-//             <li> is global and
-//             <li> 
-//                 <math.span>
-//                     {r```
-//                     is \(x(t) = x_e\)
-//                     for any \(t \geq 0\)
-//                     ```}
+deck := <Deck>
+  <Markdown> 
+    r```
+    :::documentation-page{title="Welcome"}
 
-s1 := r```
-### 🏷️ Equilibrium
+    Please install :inline-code[unified]!
 
-An **equilibrium** of system $\dot{x} = f(x)$ is a state $x_e$
-for which the maximal solution $x(t)$ such that $x(0) = x_e$
+    $$
+    \frac{1+2}{3}
+    $$
 
-- is global and
+    ::copyright-notice{year="2020"}
 
-- $x(t) = x_e$ for any $t > 0$.
-```
+    ### Grumpy Cat   
 
-s2 := r```
-### 💎 Equilibrium
+    ::youtube-video[Video of a cat in a box]{#INscMGmhmX4}
 
-The state $x_e$ is an equilibrium of $\dot{x} = f(x)$
+    :::
+    ```
+  <Markdown>
+    r```
+    # Zoubizou!
 
-$$\Longleftrightarrow$$
+    $$
+    \int_0^1 f(x) \, dx
+    $$
 
-$$f(x_e) = 0.$$
-```
+    $$
+    z := {\color{red} x} + {\color{blue} y}
+    $$
+    ```        
+  <Markdown>
+    r```
+    ### 🏷️ Equilibrium
 
-Page := ({children}) =>
-  style :=
-    display: "flex"
-    flexDirection: "column" as const
-    alignItems: "center"
-    justifyContent: "center"
-    width: "100%"
-    height: "100vh"
-    padding: "1.5rem calc((100% - 45ch) / 2)"
-  <div {style}>
-    children
+    An **equilibrium** of system $\dot{x} = f(x)$ is a state $x_e$
+    for which the maximal solution $x(t)$ such that $x(0) = x_e$
+
+    - is global and
+
+    - $x(t) = x_e$ for any $t > 0$.
+    ```
+  <Markdown>
+    r```
+    ### 💎 Equilibrium
+
+    The state $x_e$ is an equilibrium of $\dot{x} = f(x)$
+
+    $$\Longleftrightarrow$$
+
+    $$f(x_e) = 0.$$
+    ```
+  <Markdown>
+    """
+    ### 🐍 Streamplot Helper
+
+    Inline code: `if True: print("Hello, world!")`
+
+    (written in Markdown)
+    
+    ```python
+    def Q(f, xs, ys):
+        X, Y = meshgrid(xs, ys)
+        v = vectorize
+        fx = v(lambda x, y: f([x, y])[0])
+        fy = v(lambda x, y: f([x, y])[1])
+        return X, Y, fx(X, Y), fy(X, Y)
+    ```
+    """
+
+  <div>
+    <h3> "🐍 Streamplot Helper"
+    <Code>
+      """
+      def Q(f, xs, ys):
+          X, Y = meshgrid(xs, ys)
+          v = vectorize
+          fx = v(lambda x, y: f([x, y])[0])
+          fy = v(lambda x, y: f([x, y])[1])
+          return X, Y, fx(X, Y), fy(X, Y)
+      """
+  <CodeExample />
+  <ThreeBox />
+  <!-- <PythonExample /> -->
+  <UnsplashExample />
+  // <TwoColumnExample />
+  <InterHero />
+  <DontJustReadItFightIt />
+  <AboutInter />
 
 
-// document.head.appendChild styleElement
 document.body |> ReactDOM.createRoot |> .render
   <StrictMode> 
-    <CodeContext>
-      <Deck>
-        <Page>
-          <Markdown> 
-            r```
-            :::documentation-page{title="Welcome"}
-
-            Please install :inline-code[unified]!
-
-            $$
-            \frac{1+2}{3}
-            $$
-
-            ::copyright-notice{year="2020"}
-
-            ### Grumpy Cat   
-
-            ::youtube-video[Video of a cat in a box]{#INscMGmhmX4}
-
-            :::
-            ```
-        <Page>
-          <Markdown>
-            r```
-            # Zoubizou!
-
-            $$
-            \int_0^1 f(x) \, dx
-            $$
-
-            $$
-            z := {\color{red} x} + {\color{blue} y}
-            $$
-            ```        
-        <Page>
-          <Markdown>
-            s1
-        <Page>
-          <Markdown>
-            s2
-        <Page>
-          <Markdown>
-            """
-            ### 🐍 Streamplot Helper
-
-            (need to apply Shiki to this)
-            
-                def Q(f, xs, ys):
-                    X, Y = meshgrid(xs, ys)
-                    v = vectorize
-                    fx = v(lambda x, y: f([x, y])[0])
-                    fy = v(lambda x, y: f([x, y])[1])
-                    return X, Y, fx(X, Y), fy(X, Y)
-            """
-
-        <Page>
-          <h3> "🐍 Streamplot Helper"
-          <Code>
-            """
-            def Q(f, xs, ys):
-                X, Y = meshgrid(xs, ys)
-                v = vectorize
-                fx = v(lambda x, y: f([x, y])[0])
-                fy = v(lambda x, y: f([x, y])[1])
-                return X, Y, fx(X, Y), fy(X, Y)
-            """
-        <CodeExample />
-        <ThreeBox />
-        <!-- <PythonExample /> -->
-        <UnsplashExample />
-        <TwoColumnExample />
-        <InterHero />
-        <DontJustReadItFightIt />
-        <AboutInter />
+    deck

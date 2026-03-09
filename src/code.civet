@@ -7,9 +7,11 @@ import {createHighlighterCore} from "shiki/core"
 import {createJavaScriptRegexEngine} from "shiki/engine/javascript"
 import gitHubDark from "@shikijs/themes/github-dark"
 import js from "@shikijs/langs/javascript"
+import python from "@shikijs/langs/python"
 
 CodeBaseContext := createContext highlighter: null
 
+// TODO: migrate to a Deck general context
 export CodeContext := ({children}) =>
   [highlighter, setHighlighter] := useState null
   useEffect
@@ -18,7 +20,7 @@ export CodeContext := ({children}) =>
         if highlighter is null
           createHighlighterCore
             themes: [gitHubDark]
-            langs: [js]
+            langs: [js, python]
             engine: createJavaScriptRegexEngine()
           |> await |> setHighlighter
       return
@@ -26,34 +28,49 @@ export CodeContext := ({children}) =>
   <CodeBaseContext.Provider value={{highlighter}}>
     children
 
-export Code := ({children}) =>
-    {highlighter} := useContext CodeBaseContext
+export Code := ({children, className=undefined, node=undefined}) =>
+  // Don't do anything for inline code ATM.
+  if node
+    src = node.children[0].value
+    inline = not src.includes("\n") // quick and dirty...
+    if inline
+      return <code>{src}</code>
 
-    code := children
+  // TODO: extract language from className
+  lang = undefined
+  if className
+    for cls in className.split " "
+      if cls.startsWith "language-"
+        lang = cls["language-".length..]
+        break
+  console.log "Language:", lang
 
-    html = "" // TODO: improve this
-    background = "black"
-    if highlighter
-      html = highlighter.codeToHtml code, lang: "js", theme: "github-dark"
-      background = "github-dark" |> highlighter.getTheme |> .bg
-    
+  {highlighter} := useContext CodeBaseContext
+
+  code := children
+
+  html = "" // TODO: improve this
+  background = "black"
+  if highlighter
+    html = highlighter.codeToHtml code, lang: lang, theme: "github-dark"
+    background = "github-dark" |> highlighter.getTheme |> .bg
+  
+  <div 
+    style =            
+      display: "flex"
+      alignItems: "center"
+      justifyContent: "center"
+  >
     <div 
-      style =            
-        display: "flex"
-        alignItems: "center"
-        justifyContent: "center"
-        height: "100vh"
+      style =
+        fontSize: "36px"
+        padding: "1em"
+        borderRadius: "0.25em"
+        width: "fit-content"
+        background: background
     >
-      <div 
-        style =
-          fontSize: "36px"
-          padding: "1em"
-          borderRadius: "0.25em"
-          width: "fit-content"
-          background: background
-      >
-        if html
-          <div dangerouslySetInnerHTML={ __html: html }>
+      if html
+        <div dangerouslySetInnerHTML={ __html: html }>
 
 export CodeExample := =>
   <Code>
