@@ -147,120 +147,149 @@ TextSubmit := ({onSubmit}) =>
       <button type="submit">
         "Submit"
 
-deck := <Deck>
-  <Markdown> 
-    r```
-    :::documentation-page{title="Welcome"}
+// deck := 
+//   <Deck>
+//     <Page>
+//       <div
+//         dangerouslySetInnerHTML=
+//           __html: r"""
+//             <svg 
+//               xmlns="http://www.w3.org/2000/svg"
+//               viewBox="0 0 400 300"
+//               width="400" height="300"
+//             >
+//             <circle cx="200" cy="150" r="100" fill="black" />
+//             </svg>
+//             """
+//       >
 
-    Please install :inline-code[unified]!
+  // <Markdown> 
+  //   r```
+  //   :::documentation-page{title="Welcome"}
 
-    $$
-    \frac{1+2}{3}
-    $$
+  //   Please install :inline-code[unified]!
 
-    ::copyright-notice{year="2020"}
+  //   $$
+  //   \frac{1+2}{3}
+  //   $$
 
-    ### Grumpy Cat   
+  //   ::copyright-notice{year="2020"}
 
-    ::youtube-video[Video of a cat in a box]{#INscMGmhmX4}
+  //   ### Grumpy Cat   
 
-    :::
-    ```
-  // None of these pages register ?!?
-  // Mmm there is some stuff in the DOM, it just doesn't register...
-  <Page>
-    <div style=
-      width: "30vw",
-      height: "30vh",
-      background: "linear-gradient(135deg, #ff7e5f, #feb)"
-    >
-  <Page>
-    <div 
-      dangerouslySetInnerHTML=
-        {
-          __html: r"""
-          <svg width="100" height="100">
-            <circle r="30" cx="50"cy="50"/>
-          </svg>
-          """
-        }
-    >
-  <Markdown>
-    r```
-    # Zoubizou!
+  //   ::youtube-video[Video of a cat in a box]{#INscMGmhmX4}
 
-    $$
-    \int_0^1 f(x) \, dx
-    $$
+  //   :::
+  //   ```
 
-    $$
-    z := {\color{red} x} + {\color{blue} y}
-    $$
-    ```        
-  <Markdown>
-    r```
-    ### 🏷️ Equilibrium
+  // <Page>
+  //   <div style=
+  //     width: "30vw",
+  //     height: "30vh",
+  //     background: "linear-gradient(135deg, #ff7e5f, #feb)"
+  //   >
 
-    An **equilibrium** of system $\dot{x} = f(x)$ is a state $x_e$
-    for which the maximal solution $x(t)$ such that $x(0) = x_e$
+  // <Page>
+  //   <div 
+  //     dangerouslySetInnerHTML=
+  //       {
+  //         __html: r"""
+  //         <svg width="100" height="100">
+  //           <circle r="30" cx="50"cy="50"/>
+  //         </svg>
+  //         """
+  //       }
+  //   >
+  // <Markdown>
+  //   r```
+  //   # Zoubizou!
 
-    - is global and
+  //   $$
+  //   \int_0^1 f(x) \, dx
+  //   $$
 
-    - $x(t) = x_e$ for any $t > 0$.
-    ```
-  <Markdown>
-    r```
-    ### 💎 Equilibrium
+  //   $$
+  //   z := {\color{red} x} + {\color{blue} y}
+  //   $$
+  //   ```        
+  // <Markdown>
+  //   r```
+  //   ### 🏷️ Equilibrium
 
-    The state $x_e$ is an equilibrium of $\dot{x} = f(x)$
+  //   An **equilibrium** of system $\dot{x} = f(x)$ is a state $x_e$
+  //   for which the maximal solution $x(t)$ such that $x(0) = x_e$
 
-    $$\Longleftrightarrow$$
+  //   - is global and
 
-    $$f(x_e) = 0.$$
-    ```
-  <Markdown>
-    """
-    ### 🐍 Streamplot Helper
+  //   - $x(t) = x_e$ for any $t > 0$.
+  //   ```
+  // <Markdown>
+  //   r```
+  //   ### 💎 Equilibrium
 
-    Inline code: `if True: print("Hello, world!")`
+  //   The state $x_e$ is an equilibrium of $\dot{x} = f(x)$
 
-    (written in Markdown)
+  //   $$\Longleftrightarrow$$
+
+  //   $$f(x_e) = 0.$$
+  //   ```
+  // <Markdown>
+  //   """
+  //   ### 🐍 Streamplot Helper
+
+  //   Inline code: `if True: print("Hello, world!")`
+
+  //   (written in Markdown)
     
-    ```python
-    def Q(f, xs, ys):
-        X, Y = meshgrid(xs, ys)
-        v = vectorize
-        fx = v(lambda x, y: f([x, y])[0])
-        fy = v(lambda x, y: f([x, y])[1])
-        return X, Y, fx(X, Y), fy(X, Y)
-    ```
-    """
+  //   ```python
+  //   def Q(f, xs, ys):
+  //       X, Y = meshgrid(xs, ys)
+  //       v = vectorize
+  //       fx = v(lambda x, y: f([x, y])[0])
+  //       fy = v(lambda x, y: f([x, y])[1])
+  //       return X, Y, fx(X, Y), fy(X, Y)
+  //   ```
+  //   """
 
-  <div>
-    <h3> "🐍 Streamplot Helper"
-    <Code>
-      """
-      def Q(f, xs, ys):
-          X, Y = meshgrid(xs, ys)
-          v = vectorize
-          fx = v(lambda x, y: f([x, y])[0])
-          fy = v(lambda x, y: f([x, y])[1])
-          return X, Y, fx(X, Y), fy(X, Y)
-      """
-  <CodeExample />
-  <ThreeBox />
-  <!-- <PythonExample /> -->
-  <UnsplashExample />
-  // <TwoColumnExample />
-  <InterHero />    
-  <DontJustReadItFightIt />
-  <MermaidExample />
-  <h1>
-    "The End"
-  <AboutInter />
+  // <div>
+  //   <h3> "🐍 Streamplot Helper"
+  //   <Code>
+  //     """
+  //     def Q(f, xs, ys):
+  //         X, Y = meshgrid(xs, ys)
+  //         v = vectorize
+  //         fx = v(lambda x, y: f([x, y])[0])
+  //         fy = v(lambda x, y: f([x, y])[1])
+  //         return X, Y, fx(X, Y), fy(X, Y)
+  //     """
+  // <CodeExample />
+  // <ThreeBox />
+  // <!-- <PythonExample /> -->
+  // <UnsplashExample />
+  // // <TwoColumnExample />
+  // <InterHero />    
+  // <DontJustReadItFightIt />
+  // <MermaidExample />
+  // <h1>
+  //   "The End"
+  // <AboutInter />
 
-
+deck_2 := 
+  <Deck> // 🪲 BUG: <div> works but not <Deck> ... 
+    <Page>
+      <div
+        dangerouslySetInnerHTML=
+          __html: r"""
+            <svg 
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 400 300"
+              width="400" height="300"
+            >
+              <circle cx="200" cy="150" r="100" fill="black"/>
+            </svg>
+            """
+      >
 
 document.body |> ReactDOM.createRoot |> .render
   <StrictMode> 
-    deck
+    deck_2
