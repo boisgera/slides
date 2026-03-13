@@ -274,21 +274,25 @@ TextSubmit := ({onSubmit}) =>
   //   "The End"
   // <AboutInter />
 
-deck_2 := 
-  <Deck> // 🪲 BUG: <div> works but not <Deck> ... 
-    <Page>
-      <div
-        dangerouslySetInnerHTML=
-          __html: r"""
-            <svg 
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 400 300"
-              width="400" height="300"
-            >
-              <circle cx="200" cy="150" r="100" fill="black"/>
-            </svg>
-            """
-      >
+deck_2 := // counting children and url fragments are borked?
+  <Deck> 
+    <div> 
+    <div>
+    <div>
+
+// <Page>
+//   <div
+//     dangerouslySetInnerHTML=
+//       __html: r"""
+//         <svg 
+//           xmlns="http://www.w3.org/2000/svg"
+//           viewBox="0 0 400 300"
+//           width="400" height="300"
+//         >
+//           <circle cx="200" cy="150" r="100" fill="black"/>
+//         </svg>
+//         """
+//   >
 
 document.body |> ReactDOM.createRoot |> .render
   <StrictMode> 

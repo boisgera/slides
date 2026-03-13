@@ -9,6 +9,9 @@ useFragmentState := (initialIndex = 0) : NumberStateHook =>
   // Parse the current URL fragment to get the initial index
   getIndexFromFragment := =>
     fragment := window.location.hash.replace("#", "");
+    console.log "window.location:", window.location
+    console.log "window.location.hash:", window.location.hash
+    console.log "Fragment:", fragment
     if fragment then parseInt(fragment, 10) else initialIndex
   [index, setIndex] := useState getIndexFromFragment()
   
@@ -36,6 +39,10 @@ useFragmentState := (initialIndex = 0) : NumberStateHook =>
 export Deck := ({children}) =>
   [index, setIndex] := useFragmentState 0 // TODO: display slide number!
 
+  console.log "Deck children:", children
+  console.log "number of children:", children.length
+  console.log "Current index:", index
+
   useEffect 
     =>
       onKeyDown := (event) =>
@@ -51,4 +58,6 @@ export Deck := ({children}) =>
 
   console.log "***", children[index]
   <CodeContext>
-    children[index]
+     children[index]
+  // <div>
+  //   children
