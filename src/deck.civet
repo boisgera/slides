@@ -5,6 +5,8 @@ import {CodeContext} from "code.civet"
 
 type NumberStateHook = [number, React.Dispatch<React.SetStateAction<number>>]
 
+// TODO: detect Nan, write an error message and return 0 instead.
+
 useFragmentState := (initialIndex = 0) : NumberStateHook =>
   // Parse the current URL fragment to get the initial index
   getIndexFromFragment := =>
