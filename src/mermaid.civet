@@ -10,8 +10,8 @@ export MermaidDiagram := ({ code }) =>
         svg: 
           renderMermaidSVG 
             code,
-            bg: 'var(--background)',
-            fg: 'var(--foreground)',
+            bg: 'white',
+            fg: 'black',
             transparent: true,
         error: null,
       catch err
@@ -28,13 +28,27 @@ export MermaidDiagram := ({ code }) =>
       error.message
   else
     console.log "Rendered Mermaid SVG:", svg
+
+    parser := new DOMParser()
+    doc := parser.parseFromString(svg, 'image/svg+xml')
+    svgEl = doc.querySelector('svg')!
+    svgEl.removeAttribute('width')
+    svgEl.removeAttribute('height')
+    svgEl.setAttribute("width", "100%")
+    svgEl.setAttribute("height", "auto")
+    rsvg := new XMLSerializer().serializeToString(svgEl)
+
+    // rsvg = svg
+
     <div 
+      style=
+        width: "100%"
+        height: "100%"
       dangerouslySetInnerHTML=
-        __html: svg
+        __html: rsvg
     >
 
 export MermaidExample := =>
-  console.log "Rendering Mermaid diagram"
   <Page>
     <MermaidDiagram 
       code="""
@@ -43,5 +57,23 @@ export MermaidExample := =>
           B --> C[Server 1]
           B --> D[Server 2]
           B --> E[Server 3]
+      """
+    >
+
+export MermaidExample2 := =>
+  <Page>
+    <MermaidDiagram
+      code="""
+      graph TD
+        subgraph Cloud
+          subgraph us-east [US East Region]
+            A[Web Server] --> B[App Server]
+          end
+          subgraph us-west [US West Region]
+            C[Web Server] --> D[App Server]
+          end
+        end
+        E[Load Balancer] --> A
+        E --> C
       """
     >

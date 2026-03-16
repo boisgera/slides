@@ -17,7 +17,7 @@ import {ThreeBox} from "./threebox.civet"
 import {CodeContext, Code, CodeExample} from "./code.civet"
 import {UnsplashExample} from "./unsplash.civet"
 import {Markdown} from "./markdown.civet"
-import {MermaidExample} from "./mermaid.civet"
+import {MermaidExample, MermaidExample2} from "./mermaid.civet"
 
 r := String.raw
 
@@ -277,26 +277,77 @@ TextSubmit := ({onSubmit}) =>
 deck_2 := // counting children and url fragments are borked?
   <Deck> 
     <div> 
-      <p>"sjdkhskjdhskjds"
+      <p>"SOLOMON GRUNDY"
     <Page>
       <h1>
         "GROQUIK"
-    <div
-      dangerouslySetInnerHTML=
-        __html: r"""
-          <svg 
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 400 300"
-            width="400" height="300"
-          >
-            <circle cx="200" cy="150" r="100" fill="black"/>
-          </svg>
-        """
+    <Page>
+      <div
+        dangerouslySetInnerHTML=
+          __html: r"""
+            <svg 
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 400 300"
+              width="400" height="300"
+            >
+              <circle cx="200" cy="150" r="100" fill="black"/>
+            </svg>
+          """
   >
     <div>
       <p>"AAAAAAAAAAAAAAAA"
     <div>
       <h1>"JJJJJJJJ"
+    <Markdown>
+      r"""
+      # Zoubi
+
+      - hjhjh
+      - dsjksjdk
+      - sdjdksjskdjsk
+
+      $$
+      \int_0^1 f(x) \, dx = 42
+      $$
+      """
+    <Markdown> // ATM, highlighting is lost
+      """
+      ### 🐍 Streamplot Helper
+
+      Inline: `if True: print("Hello, world!")`
+      
+      ```python
+      def Q(f, xs, ys):
+          X, Y = meshgrid(xs, ys)
+          v = vectorize
+          fx = v(lambda x, y: f([x, y])[0])
+          fy = v(lambda x, y: f([x, y])[1])
+          return X, Y, fx(X, Y), fy(X, Y)
+      ```
+      """
+    <Markdown>
+      r```
+      ### 💎 Equilibrium
+
+      The state $x_e$ is an equilibrium of $\dot{x} = f(x)$
+
+      $$\Longleftrightarrow$$
+
+      $$f(x_e) = 0.$$
+      ```
+    <MermaidExample>
+    <MermaidExample2>
+
+
+
+// <Markdown>
+//   """
+//   # YO
+
+//   - jdksjskd
+//   - dskldksldskdlskds
+//   - dksdjksjdskdjskjskdsjksdj
+//   """
 
 // <Page>
 //   <div
