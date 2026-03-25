@@ -11,18 +11,16 @@ import python from "@shikijs/langs/python"
 
 CodeBaseContext := createContext highlighter: null
 
-// TODO: migrate to a Deck general context
 export CodeContext := ({children}) =>
   [highlighter, setHighlighter] := useState null
   useEffect
     =>
       async do
-        if highlighter is null
-          createHighlighterCore
-            themes: [gitHubDark]
-            langs: [js, python]
-            engine: createJavaScriptRegexEngine()
-          |> await |> setHighlighter
+        createHighlighterCore
+          themes: [gitHubDark]
+          langs: [js, python]
+          engine: createJavaScriptRegexEngine()
+        |> await |> setHighlighter
       return
     []
   <CodeBaseContext.Provider value={{highlighter}}>
@@ -36,14 +34,13 @@ export Code := ({children, className=undefined, node=undefined}) =>
     if inline
       return <code>{src}</code>
 
-  // TODO: extract language from className
   lang = undefined
   if className
-    for cls in className.split " "
+    console.log "class:", className
+    for cls of className.split " "
       if cls.startsWith "language-"
         lang = cls["language-".length..]
         break
-  console.log "Language:", lang
 
   {highlighter} := useContext CodeBaseContext
 

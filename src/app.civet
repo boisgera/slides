@@ -276,6 +276,16 @@ TextSubmit := ({onSubmit}) =>
 
 deck_2 := // counting children and url fragments are borked?
   <Deck> 
+    <Page>
+      <Code .language-python>
+        """
+        def Q(f, xs, ys):
+            X, Y = meshgrid(xs, ys)
+            v = vectorize
+            fx = v(lambda x, y: f([x, y])[0])
+            fy = v(lambda x, y: f([x, y])[1])
+            return X, Y, fx(X, Y), fy(X, Y)
+        """
     <div> 
       <p>"SOLOMON GRUNDY"
     <Page>
@@ -338,31 +348,6 @@ deck_2 := // counting children and url fragments are borked?
     <MermaidExample>
     <MermaidExample2>
 
-
-
-// <Markdown>
-//   """
-//   # YO
-
-//   - jdksjskd
-//   - dskldksldskdlskds
-//   - dksdjksjdskdjskjskdsjksdj
-//   """
-
-// <Page>
-//   <div
-//     dangerouslySetInnerHTML=
-//       __html: r"""
-//         <svg 
-//           xmlns="http://www.w3.org/2000/svg"
-//           viewBox="0 0 400 300"
-//           width="400" height="300"
-//         >
-//           <circle cx="200" cy="150" r="100" fill="black"/>
-//         </svg>
-//         """
-//   >
-
 document.body |> ReactDOM.createRoot |> .render
-  <StrictMode> 
-    deck_2
+  // <StrictMode> 
+  deck_2
